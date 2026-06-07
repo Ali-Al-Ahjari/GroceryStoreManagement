@@ -216,6 +216,8 @@ function Invoke-OrClick {
         throw "Element not found."
     }
 
+    Activate-Handle -Handle $OwnerHandle
+
     try {
         $Element.SetFocus()
         Start-Sleep -Milliseconds 150
