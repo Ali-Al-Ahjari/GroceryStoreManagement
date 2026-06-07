@@ -1,0 +1,47 @@
+# Visual Studio / IDE
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+
+# Build outputs
+**/bin/
+**/obj/
+**/artifacts/
+TestResults/
+
+# Runtime/generated app data
+**/Backups/
+**/Logs/
+**/Data/*.db
+**/Data/*.db-shm
+**/Data/*.db-wal
+**/Data/settings.ini
+*.backup
+*.backup.info
+*.log
+
+# NuGet/local package caches and tools
+packages/
+_nuget_downloads/
+nuget.exe
+nuget_help.txt
+*.nupkg
+
+# Local temp/extract folders and one-off tools
+_lib_extract/
+TempTool/
+CheckUsers.cs
+backup_before_cleanup_*.zip
+.qodo/
+scripts/license-tool.local.ps1
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Agents
+.agents/

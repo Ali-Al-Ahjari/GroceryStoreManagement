@@ -1,0 +1,306 @@
+<Window x:Class="GroceryStoreManagement.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="نظام إدارة المتجر" Height="800" Width="1400" MinHeight="600" MinWidth="1000" WindowStartupLocation="CenterScreen" WindowState="Maximized" FlowDirection="RightToLeft" Language="ar-YE" Background="{StaticResource BackgroundBrush}" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing" KeyDown="OnKeyDown" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="SidebarColumn" Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+        <!-- القائمة الجانبية (Sidebar) -->
+        <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+        <Border x:Name="SidebarBorder" Grid.Column="0" Background="{StaticResource SidebarGradient}" Width="230">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Logo -->
+                    <RowDefinition Height="*"/>
+                    <!-- Menu -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Footer -->
+                </Grid.RowDefinitions>
+
+                <!-- Logo Section -->
+                <StackPanel Grid.Row="0" Margin="18,30,18,28">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Border Width="52" Height="52" CornerRadius="15" Background="{StaticResource PrimaryGradient}" Margin="0,0,14,0">
+                            <TextBlock Text="&#xE7BF;" FontFamily="{StaticResource IconFont}" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="إدارة المتجر" FontFamily="{StaticResource PrimaryFont}" FontSize="19" FontWeight="Bold" Foreground="White" Margin="0,0,0,2"/>
+                            <TextBlock Text="Retail Command" FontFamily="{StaticResource PrimaryFont}" FontSize="11" Foreground="#C5D5E2" FlowDirection="LeftToRight"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Navigation Menu -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="10,0">
+                    <StackPanel>
+
+                        <TextBlock Text="الرئيسية" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" Margin="20,10,20,10" Opacity="0.7"/>
+
+                        <Button x:Name="BtnDashboard" Style="{StaticResource SidebarButton}" Click="BtnDashboard_Click" Tag="Active">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE9D9;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="لوحة التحكم"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="إدارة المخزون" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" Margin="20,24,20,10" Opacity="0.7"/>
+
+                        <Button x:Name="BtnProducts" Style="{StaticResource SidebarButton}" Click="BtnProducts_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE7B8;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="المنتجات"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnInventory" Style="{StaticResource SidebarButton}" Click="BtnInventory_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8C8;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="المخزون"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnSuppliers" Style="{StaticResource SidebarButton}" Click="BtnSuppliers_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xEB4F;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="الموردون"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="المبيعات والعملاء" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" Margin="20,24,20,10" Opacity="0.7"/>
+
+                        <Button x:Name="BtnInvoices" Style="{StaticResource SidebarButton}" Click="BtnSales_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="المبيعات"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnCustomers" Style="{StaticResource SidebarButton}" Click="BtnCustomers_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE716;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="العملاء"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnPurchases" Style="{StaticResource SidebarButton}" Click="BtnPurchases_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE118;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="المشتريات"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Text="الإعدادات والتقارير" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" Margin="20,24,20,10" Opacity="0.7"/>
+
+                        <Button x:Name="BtnReports" Style="{StaticResource SidebarButton}" Click="BtnReports_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE9D2;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="التقارير"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="BtnSettings" Style="{StaticResource SidebarButton}" Click="BtnSettings_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE713;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                                <TextBlock Text="الإعدادات"/>
+                            </StackPanel>
+                        </Button>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Footer / Logout -->
+                <Border Grid.Row="2" Padding="18" Background="#13000000" BorderBrush="#24FFFFFF" BorderThickness="0,1,0,0">
+                    <Button x:Name="BtnExit" Style="{StaticResource SidebarButton}" Click="BtnExit_Click" Foreground="#EF4444" Margin="0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xF3B1;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,16,0"/>
+                            <TextBlock Text="تسجيل الخروج"/>
+                        </StackPanel>
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+        <!-- المحتوى الرئيسي (Main Content) -->
+        <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="94"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Header -->
+            <Border Grid.Row="0" Background="{StaticResource BrushBackgroundHeader}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                <Grid Margin="28,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Page Info -->
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button x:Name="BtnMenuToggle" Click="BtnMenuToggle_Click" Style="{StaticResource IconButton}" Margin="0,0,16,0">
+                                <TextBlock Text="&#xE8A1;" FontFamily="{StaticResource IconFont}" />
+                            </Button>
+                            <TextBlock x:Name="PageTitle" Text="لوحة التحكم" FontFamily="{StaticResource PrimaryFont}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                        <TextBlock Text="مرحباً بك مجدداً في نظام الإدارة" FontFamily="{StaticResource PrimaryFont}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="58,4,0,0"/>
+                    </StackPanel>
+
+                    <!-- Action Area -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+
+                        <Button x:Name="BtnGlobalRefresh" Style="{StaticResource OutlineButton}" Click="BtnGlobalRefresh_Click" Margin="0,0,12,0" Padding="16,8" ToolTip="تحديث الصفحة الحالية (Ctrl + R)">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE72C;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,7,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="تحديث الآن" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Border Background="{StaticResource BrushAccentMuted}" CornerRadius="11" Padding="12,8" Margin="0,0,18,0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="&#xE787;" FontFamily="{StaticResource IconFont}" FontSize="13" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="تشغيل مباشر" FontFamily="{StaticResource PrimaryFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryDarkBrush}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Notifications -->
+                        <Grid Margin="0,0,24,0">
+                            <Button x:Name="BtnNotifications" Click="BtnNotifications_Click" Style="{StaticResource IconButton}">
+                                <Grid>
+                                    <TextBlock Text="&#xEA8F;" FontFamily="{StaticResource IconFont}" FontSize="20"/>
+                                    <Border x:Name="NotificationBadge" Background="{StaticResource ErrorBrush}" CornerRadius="9" MinWidth="18" Height="18" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-6,-6,0,0" Visibility="Collapsed" Padding="4,0">
+                                        <TextBlock x:Name="NotificationCountPicker" Text="0" FontSize="10" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </Grid>
+                            </Button>
+                            <Popup x:Name="NotificationsPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=BtnNotifications}" StaysOpen="False" AllowsTransparency="True">
+                                <Border Background="{StaticResource SurfaceBrush}" CornerRadius="12" Width="320" Effect="{StaticResource DropdownShadow}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Margin="0,8,0,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*" MaxHeight="350"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,0,0,1" Padding="16">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="الإشعارات" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Grid.Column="1" Click="MarkAllRead_Click" Style="{StaticResource TextButton}" FontSize="11" Margin="12,0,0,0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="&#xE73E;" FontFamily="{StaticResource IconFont}" FontSize="11" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="تحديد كمقروء" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                            <Grid>
+                                                <ItemsControl x:Name="NotificationsList">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Padding="16" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,0,0,1">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="13"/>
+                                                                        <TextBlock Text="{Binding Message}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                                                        <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:HH:mm}'}" FontSize="10" Foreground="{StaticResource TextMutedBrush}" Margin="0,6,0,0"/>
+                                                                    </StackPanel>
+                                                                    <Button Grid.Column="1" Click="DeleteNotification_Click" Tag="{Binding NotificationID}" Style="{StaticResource IconButton}" Width="24" Height="24">
+                                                                        <TextBlock Text="&#xE711;" FontFamily="{StaticResource IconFont}" FontSize="10" />
+                                                                    </Button>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <TextBlock x:Name="EmptyNotificationsText" Text="لا توجد إشعارات" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" Margin="20" Visibility="Collapsed"/>
+                                            </Grid>
+                                        </ScrollViewer>
+                                        <Border Grid.Row="2" Padding="12" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,1,0,0">
+                                            <Button Click="ViewAllNotifications_Click" Style="{StaticResource TextButton}" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE890;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="عرض الكل" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+                        </Grid>
+
+                        <Rectangle Width="1" Height="24" Fill="{StaticResource BorderBrush}" Margin="0,0,24,0"/>
+
+                        <!-- User Profile -->
+                        <Grid>
+                            <Button x:Name="BtnUserMenu" Click="BtnUserMenu_Click" Background="{StaticResource BrushAccentMuted}" BorderBrush="{StaticResource BrushBorderDefault}" BorderThickness="1" Padding="10,6" Cursor="Hand">
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource PrimaryGradient}" Margin="0,0,12,0">
+                                        <TextBlock Text="&#xE77B;" FontFamily="{StaticResource IconFont}" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock x:Name="TxtCurrentUserFullName" Text="المستخدم" FontWeight="SemiBold" FontSize="14"/>
+                                        <TextBlock x:Name="TxtCurrentUserRole" Text="مدير النظام" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="&#xE70D;" FontFamily="{StaticResource IconFont}" FontSize="10" VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Popup x:Name="UserMenuPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=BtnUserMenu}" StaysOpen="False" AllowsTransparency="True">
+                                <Border Background="{StaticResource SurfaceBrush}" CornerRadius="12" Width="220" Effect="{StaticResource DropdownShadow}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Margin="0,8,0,0">
+                                    <StackPanel>
+                                        <Button Click="OpenMyAccount_Click" Style="{StaticResource TextButton}" HorizontalAlignment="Stretch" Padding="16,10">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xE77B;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="حسابي" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Click="OpenSettingsFromUserMenu_Click" Style="{StaticResource TextButton}" HorizontalAlignment="Stretch" Padding="16,10">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xE713;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="الإعدادات" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Rectangle Height="1" Fill="{StaticResource BorderLightBrush}" Margin="8,4"/>
+                                        <Button Click="BtnExit_Click" Style="{StaticResource TextButton}" Foreground="#EF4444" HorizontalAlignment="Stretch" Padding="16,10">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xF3B1;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="تسجيل الخروج" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Main Content Frame -->
+            <Grid Grid.Row="1" Margin="22,20,22,22">
+                <!-- Shadow container -->
+                <Border Background="{StaticResource BrushSurfaceCore}" BorderBrush="{StaticResource BrushBorderDefault}" BorderThickness="1" CornerRadius="20" Effect="{StaticResource CardShadow}">
+                    <Border CornerRadius="20" ClipToBounds="True">
+                        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Background="Transparent"/>
+                    </Border>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

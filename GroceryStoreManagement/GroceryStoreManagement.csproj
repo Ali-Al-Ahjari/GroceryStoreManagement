@@ -1,0 +1,156 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<SupportedOSPlatform>windows7.0</SupportedOSPlatform>
+		<TargetPlatformMinVersion>7.0</TargetPlatformMinVersion>
+		<RootNamespace>GroceryStoreManagement</RootNamespace>
+		<AssemblyName>GroceryStoreManagement</AssemblyName>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<LangVersion>latest</LangVersion>
+		<Platforms>AnyCPU;x86;x64</Platforms>
+		<RestoreConfigFile>$(MSBuildProjectDirectory)\..\NuGet.Config</RestoreConfigFile>
+
+		<!-- Suppress warnings for Windows-only packages and platform-specific APIs -->
+		<NoWarn>$(NoWarn);NU1701;CA1416</NoWarn>
+		<!-- Disable NuGet vulnerability audit to avoid NU1900 errors when offline -->
+		<NuGetAudit>false</NuGetAudit>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="AForge">
+			<HintPath>..\lib\AForge.dll</HintPath>
+		</Reference>
+		<Reference Include="AForge.Video">
+			<HintPath>..\lib\AForge.Video.dll</HintPath>
+		</Reference>
+		<Reference Include="AForge.Video.DirectShow">
+			<HintPath>..\lib\AForge.Video.DirectShow.dll</HintPath>
+		</Reference>
+		<Reference Include="Dapper">
+			<HintPath>..\lib\Dapper.dll</HintPath>
+		</Reference>
+		<Reference Include="EPPlus">
+			<HintPath>..\lib\EPPlus.dll</HintPath>
+		</Reference>
+		<Reference Include="EPPlus.Interfaces">
+			<HintPath>..\lib\EPPlus.Interfaces.dll</HintPath>
+		</Reference>
+		<Reference Include="LiveCharts">
+			<HintPath>..\lib\LiveCharts.dll</HintPath>
+		</Reference>
+		<Reference Include="LiveCharts.Wpf">
+			<HintPath>..\lib\LiveCharts.Wpf.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.Configuration">
+			<HintPath>..\lib\Microsoft.Extensions.Configuration.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+			<HintPath>..\lib\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.Configuration.FileExtensions">
+			<HintPath>..\lib\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.Configuration.Json">
+			<HintPath>..\lib\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.FileProviders.Abstractions">
+			<HintPath>..\lib\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.FileProviders.Physical">
+			<HintPath>..\lib\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.FileSystemGlobbing">
+			<HintPath>..\lib\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.Primitives">
+			<HintPath>..\lib\Microsoft.Extensions.Primitives.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.IO.RecyclableMemoryStream">
+			<HintPath>..\lib\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+		</Reference>
+		<Reference Include="OpenCvSharp">
+			<HintPath>..\lib\OpenCvSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Data.SQLite">
+			<HintPath>..\lib\System.Data.SQLite.dll</HintPath>
+		</Reference>
+		<Reference Include="zxing">
+			<HintPath>..\lib\zxing.dll</HintPath>
+		</Reference>
+		<Reference Include="ZXing.Windows.Compatibility">
+			<HintPath>..\lib\ZXing.Windows.Compatibility.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="QuestPDF" Version="2026.2.1" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<Resource Include="Assets\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Security\default_license_public_key.pem" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="..\lib\runtimes\win-x64\native\**\*">
+			<Link>runtimes\win-x64\native\%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\lib\runtimes\win-x86\native\**\*">
+			<Link>runtimes\win-x86\native\%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="..\lib\runtimes\win-x64\native\SQLite.Interop.dll">
+			<Link>x64\SQLite.Interop.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="..\lib\runtimes\win-x86\native\SQLite.Interop.dll">
+			<Link>x86\SQLite.Interop.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<!-- Exclude temporary local build artifacts from compilation -->
+	<ItemGroup>
+		<Compile Remove="artifacts\**\*.cs" />
+		<Page Remove="artifacts\**\*.xaml" />
+		<ApplicationDefinition Remove="artifacts\**\*.xaml" />
+		<None Remove="artifacts\**\*" />
+		<Content Remove="artifacts\**\*" />
+		<Resource Remove="artifacts\**\*" />
+		<EmbeddedResource Remove="artifacts\**\*" />
+	</ItemGroup>
+
+</Project>

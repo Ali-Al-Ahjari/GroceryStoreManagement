@@ -1,0 +1,63 @@
+<Window x:Class="GroceryStoreManagement.Windows.InitialSetupWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="إعداد المدير لأول مرة" Height="660" Width="520"
+    WindowStartupLocation="CenterOwner" WindowStyle="None"
+    AllowsTransparency="True" Background="Transparent"
+    FlowDirection="RightToLeft" Language="ar-YE" ResizeMode="NoResize" ShowInTaskbar="False" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
+
+    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- العنوان -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                <TextBlock Text="إعداد المدير لأول مرة" Style="{StaticResource HeaderLabel}"/>
+                <TextBlock Text="أكمل البيانات التالية لإنشاء حساب المدير." Style="{StaticResource BodyLabel}" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- المحتوى -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="اسم المستخدم" Style="{StaticResource FormLabel}" />
+                    <TextBox x:Name="UsernameTextBox" Style="{StaticResource ModernTextBox}" Margin="0,5,0,10"/>
+
+                    <TextBlock Text="الاسم الكامل" Style="{StaticResource FormLabel}" />
+                    <TextBox x:Name="FullNameTextBox" Style="{StaticResource ModernTextBox}" Margin="0,5,0,10"/>
+
+                    <TextBlock Text="البريد الإلكتروني" Style="{StaticResource FormLabel}" />
+                    <TextBox x:Name="EmailTextBox" Style="{StaticResource ModernTextBox}" Margin="0,5,0,10"/>
+
+                    <TextBlock Text="رقم الهاتف" Style="{StaticResource FormLabel}" />
+                    <TextBox x:Name="PhoneTextBox" Style="{StaticResource ModernTextBox}" Margin="0,5,0,10"/>
+
+                    <TextBlock Text="كلمة المرور" Style="{StaticResource FormLabel}" />
+                    <PasswordBox x:Name="PasswordBox" Style="{StaticResource ModernPasswordBox}" Margin="0,5,0,10"/>
+
+                    <TextBlock Text="تأكيد كلمة المرور" Style="{StaticResource FormLabel}" />
+                    <PasswordBox x:Name="ConfirmPasswordBox" Style="{StaticResource ModernPasswordBox}" Margin="0,5,0,10"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- الأزرار -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" FlowDirection="LeftToRight" Margin="0,10,0,0">
+                <Button Style="{StaticResource PrimaryButton}" Padding="18,8" Margin="0,0,10,0" Click="Create_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="إنشاء المدير" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource OutlineButton}" Padding="18,8" Click="Cancel_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE711;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="إلغاء" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,504 @@
+﻿<UserControl x:Class="GroceryStoreManagement.Windows.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Language="ar-YE" Background="{StaticResource BackgroundBrush}">
+
+    <Grid Margin="25">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- القائمة الجانبية (Tabs) -->
+        <Border Grid.Column="0" Background="White" CornerRadius="10" Margin="0,0,20,0" Padding="10">
+            <StackPanel>
+                <TextBlock Text="الإعدادات" Style="{StaticResource HeaderLabel}" Margin="10,0,0,20"/>
+
+                <RadioButton x:Name="SystemSettingsRadio" Style="{StaticResource MenuRadioButton}" IsChecked="True" Checked="SettingsSection_Changed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE713;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="النظام العام" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton x:Name="PrintSettingsRadio" Style="{StaticResource MenuRadioButton}" Checked="SettingsSection_Changed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE749;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="الطباعة والفواتير" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton x:Name="EmailSettingsRadio" Style="{StaticResource MenuRadioButton}" Checked="SettingsSection_Changed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE715;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="البريد الإلكتروني" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <Rectangle Height="1" Fill="#EEEEEE" Margin="10,10"/>
+                <RadioButton x:Name="UsersSettingsRadio" Style="{StaticResource MenuRadioButton}" Checked="SettingsSection_Changed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE716;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="إدارة المستخدمين" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton x:Name="RolesSettingsRadio" Style="{StaticResource MenuRadioButton}" Checked="SettingsSection_Changed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE7E3;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="الأدوار والصلاحيات" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <Rectangle Height="1" Fill="#EEEEEE" Margin="10,10"/>
+                <RadioButton x:Name="BackupSettingsRadio" Style="{StaticResource MenuRadioButton}" Checked="SettingsSection_Changed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE74E;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="النسخ الاحتياطي" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton x:Name="DatabaseSettingsRadio" Style="{StaticResource MenuRadioButton}" Checked="SettingsSection_Changed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8B7;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="قاعدة البيانات" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton x:Name="LogsSettingsButton" Style="{StaticResource MenuRadioButton}" Click="OpenLogs_Click" Margin="0,5,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8C8;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="سجل النشاطات" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton x:Name="ErrorLogsSettingsButton" Style="{StaticResource MenuRadioButton}" Click="OpenErrorLogsWindow_Click" Margin="0,5,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE783;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="سجل الأخطاء" VerticalAlignment="Center" />
+                    </StackPanel>
+                </RadioButton>
+            </StackPanel>
+        </Border>
+
+        <!-- محتوى الإعدادات -->
+        <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="25">
+            <Grid>
+                <!-- 1. إعدادات النظام -->
+                <StackPanel x:Name="SystemSettingsPanel" Visibility="Visible">
+                    <TextBlock Text="إعدادات النظام والمؤسسة" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="600">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="اسم المؤسسة" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox x:Name="CompanyNameTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                    <TextBlock Text="رقم الهاتف" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox x:Name="CompanyPhoneTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                    <TextBlock Text="العنوان" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox x:Name="CompanyAddressTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="0,0,0,10">
+                                            <TextBlock Text="السجل التجاري" Style="{StaticResource LabelStyle}"/>
+                                            <TextBox x:Name="CommercialRegTextBox" Style="{StaticResource ModernTextBox}" Margin="0,0,5,0"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="5,0,0,10">
+                                            <TextBlock Text="الرقم الضريبي" Style="{StaticResource LabelStyle}"/>
+                                            <TextBox x:Name="TaxNumberTextBox" Style="{StaticResource ModernTextBox}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Top">
+                                    <TextBlock Text="شعار المؤسسة" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center"/>
+                                    <Border Width="120" Height="120" CornerRadius="10" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,5,0,10">
+                                        <Image x:Name="CompanyLogoImage" Stretch="Uniform"/>
+                                    </Border>
+                                    <Button Click="SelectLogo_Click" Style="{StaticResource OutlineButton}" Margin="0,0,0,5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE8B7;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                            <TextBlock Text="تغيير الشعار" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Click="RemoveLogo_Click" Style="{StaticResource TextButton}" Foreground="#E74C3C">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                            <TextBlock Text="حذف" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="إعدادات الضرائب والعملة" Style="{StaticResource SubHeaderLabel}" Margin="0,10,0,15"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                    <TextBlock Text="نسبة الضريبة %" Style="{StaticResource LabelStyle}"/>
+                                    <TextBox x:Name="VATPercentTextBox" Style="{StaticResource ModernTextBox}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,5,0">
+                                    <TextBlock Text="العملة" Style="{StaticResource LabelStyle}"/>
+                                    <ComboBox x:Name="CurrencyComboBox" Style="{StaticResource ModernComboBox}">
+                                        <ComboBoxItem Content="ريال يمني"/>
+                                        <ComboBoxItem Content="ريال سعودي"/>
+                                        <ComboBoxItem Content="دولار أمريكي"/>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                                    <TextBlock Text="اللغة" Style="{StaticResource LabelStyle}"/>
+                                    <ComboBox x:Name="LanguageComboBox" Style="{StaticResource ModernComboBox}">
+                                        <ComboBoxItem Content="العربية (اليمن)"/>
+                                        <ComboBoxItem Content="English (US)"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+
+                            <StackPanel Margin="0,10,0,0">
+                                <TextBlock Text="تنسيق التاريخ" Style="{StaticResource LabelStyle}"/>
+                                <ComboBox x:Name="DateFormatComboBox" Style="{StaticResource ModernComboBox}">
+                                    <ComboBoxItem Content="yyyy/MM/dd"/>
+                                    <ComboBoxItem Content="dd/MM/yyyy"/>
+                                    <ComboBoxItem Content="MM/dd/yyyy"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <Button Click="SaveSystemSettings_Click" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Left" Width="170" Margin="0,20,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE74E;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="حفظ الإعدادات" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                </StackPanel>
+
+                <!-- 2. إعدادات الطباعة -->
+                <StackPanel x:Name="PrintSettingsPanel" Visibility="Collapsed">
+                    <TextBlock Text="إعدادات الطباعة والفواتير" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
+
+                    <TextBlock Text="الطابعة الافتراضية" Style="{StaticResource LabelStyle}"/>
+                    <ComboBox x:Name="PrinterComboBox" Style="{StaticResource ModernComboBox}" Margin="0,0,0,15"/>
+
+                    <CheckBox x:Name="OpenCashDrawerCheckBox" Content="فتح درج النقود تلقائياً عند الدفع النقدي" Margin="0,0,0,10"/>
+                    <TextBlock Text="أمر فتح درج النقود (Hex ESC/POS)" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="CashDrawerCommandTextBox" Style="{StaticResource ModernTextBox}" Text="1B-70-00-19-FA" Margin="0,0,0,15"/>
+
+                    <TextBlock Text="تذييل الفاتورة (يظهر أسفل الفاتورة)" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="InvoiceFooterTextBox" Style="{StaticResource ModernTextBox}" Height="80" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+                    <TextBlock Text="التوقيع الرقمي" Style="{StaticResource LabelStyle}" Margin="0,15,0,5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Click="SelectSignature_Click" Style="{StaticResource OutlineButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8B7;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="تحميل صورة التوقيع" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <TextBlock Text="سيظهر هذا التوقيع في أسفل الفواتير والسندات" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{StaticResource TextMutedBrush}"/>
+                    </StackPanel>
+
+                    <Button Click="SavePrintSettings_Click" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Left" Width="200" Margin="0,30,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE74E;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                            <TextBlock Text="حفظ إعدادات الطباعة" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- 3. إعدادات البريد -->
+                <StackPanel x:Name="EmailSettingsPanel" Visibility="Collapsed">
+                    <TextBlock Text="إعدادات البريد الإلكتروني (SMTP)" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                            <TextBlock Text="عنوان الخادم (SMTP Server)" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="SmtpServerTextBox" Style="{StaticResource ModernTextBox}" Text="smtp.gmail.com"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="المنفذ (Port)" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="SmtpPortTextBox" Style="{StaticResource ModernTextBox}" Text="587"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="البريد الإلكتروني المرسل" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="EmailAddressTextBox" Style="{StaticResource ModernTextBox}"/>
+
+                    <TextBlock Text="كلمة المرور (أو كلمة مرور التطبيق)" Style="{StaticResource LabelStyle}"/>
+                    <PasswordBox x:Name="EmailPasswordBox" Style="{StaticResource ModernPasswordBox}"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                        <Button Click="SaveEmailSettings_Click" Style="{StaticResource PrimaryButton}" Width="170" Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE74E;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="حفظ الإعدادات" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Click="TestEmail_Click" Style="{StaticResource OutlineButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE73E;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="تجربة الاتصال" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 4. إدارة المستخدمين -->
+                <Grid x:Name="UsersSettingsPanel" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="إدارة المستخدمين" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+                        <Button Click="AddUser_Click" Style="{StaticResource PrimaryButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="إضافة مستخدم" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="2" x:Name="UsersDataGrid" Style="{StaticResource ModernDataGridStyle}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="الرقم" Binding="{Binding UserID}" Width="60" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTextColumn Header="اسم المستخدم" Binding="{Binding Username}" Width="*" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTextColumn Header="الاسم الكامل" Binding="{Binding FullName}" Width="*" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTextColumn Header="الدور" Binding="{Binding RoleName}" Width="100" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTextColumn Header="آخر دخول" Binding="{Binding LastLoginDate, StringFormat=yyyy/MM/dd HH:mm}" Width="140" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTemplateColumn Header="إجراءات" Width="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Tag="{Binding UserID}" Click="EditUser_Click" Style="{StaticResource ActionButton}" Background="{StaticResource WarningBrush}" Margin="2">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE70F;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="تعديل" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Tag="{Binding UserID}" Click="DeleteUser_Click" Style="{StaticResource ActionButton}" Background="{StaticResource DangerBrush}" Margin="2">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="حذف" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+                <!-- 5. إدارة الأدوار -->
+                <Grid x:Name="RolesSettingsPanel" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="إدارة الأدوار والصلاحيات" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+                        <Button Click="AddRole_Click" Style="{StaticResource PrimaryButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="إضافة دور جديد" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="2" x:Name="RolesDataGrid" Style="{StaticResource ModernDataGridStyle}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="الرقم" Binding="{Binding RoleID}" Width="60" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTextColumn Header="اسم الدور" Binding="{Binding RoleName}" Width="*" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTextColumn Header="الوصف" Binding="{Binding Description}" Width="2*" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            <DataGridTemplateColumn Header="إجراءات" Width="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Tag="{Binding RoleID}" Click="EditRole_Click" Style="{StaticResource ActionButton}" Background="{StaticResource WarningBrush}" Margin="2">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE70F;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="تعديل" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Tag="{Binding RoleID}" Click="DeleteRole_Click" Style="{StaticResource ActionButton}" Background="{StaticResource DangerBrush}" Margin="2">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                                    <TextBlock Text="حذف" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+                <!-- 6. النسخ الاحتياطي -->
+                <Grid x:Name="BackupSettingsPanel" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="النسخ الاحتياطي والاستعادة" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
+
+                    <Border Grid.Row="1" Style="{StaticResource CardBorder}" Margin="0,0,0,20" Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="النسخ الاحتياطي التلقائي" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox x:Name="AutoBackupCheckBox" Content="تفعيل" VerticalAlignment="Center" Margin="0,0,15,0"/>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,15,0">
+                                    <TextBlock Text="التكرار:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <ComboBox x:Name="BackupFrequencyComboBox" Width="100">
+                                        <ComboBoxItem Content="يومياً"/>
+                                        <ComboBoxItem Content="أسبوعياً"/>
+                                        <ComboBoxItem Content="شهرياً"/>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <TextBlock Text="الوقت:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <ComboBox x:Name="BackupTimeComboBox" Width="100">
+                                        <ComboBoxItem Content="عند الإغلاق"/>
+                                        <ComboBoxItem Content="12:00 AM"/>
+                                        <ComboBoxItem Content="03:00 AM"/>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <Button Grid.Column="3" Click="ScheduleBackup_Click" HorizontalAlignment="Left" Style="{StaticResource PrimaryButton}" Margin="15,0,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE74E;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="حفظ الجدولة" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <Rectangle Height="1" Fill="#EEEEEE" Margin="0,15"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button Click="CreateBackup_Click" Style="{StaticResource PrimaryButton}" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE74E;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="إنشاء نسخة احتياطية الآن" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Click="RestoreBackup_Click" Style="{StaticResource OutlineButton}" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE8B7;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="استعادة نسخة..." VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Click="DownloadBackup_Click" Style="{StaticResource OutlineButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE749;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="تنزيل نسخة للملف" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="سجل النسخ الاحتياطية" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TotalBackupsText" Text="0" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                            <TextBlock Text="آخر نسخ:" Margin="15,0,0,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="LastBackupText" Text="-" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        </StackPanel>
+
+                        <DataGrid Grid.Row="1" x:Name="BackupHistoryGrid" Style="{StaticResource ModernDataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="التاريخ والوقت" Binding="{Binding Date}" Width="180" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="النوع" Binding="{Binding Type}" Width="100" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="الحجم" Binding="{Binding Size}" Width="100" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="المسار" Binding="{Binding Path}" Width="*" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+
+                <!-- 7. قاعدة البيانات -->
+                <StackPanel x:Name="DatabaseSettingsPanel" Visibility="Collapsed">
+                    <TextBlock Text="معلومات وصيانة قاعدة البيانات" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
+
+                    <Border Style="{StaticResource CardBorder}" Padding="20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="حجم القاعدة" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock x:Name="DatabaseSizeText" Text="--" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="عدد الجداول" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock x:Name="TablesCountText" Text="--" FontSize="24" FontWeight="Bold" Foreground="{StaticResource SecondaryBrush}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="آخر تحديث" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock x:Name="LastUpdateText" Text="--" FontSize="24" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="أدوات الصيانة" Style="{StaticResource LabelStyle}" Margin="0,20,0,10"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Click="CheckDatabaseHealth_Click" Style="{StaticResource OutlineButton}" Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8D5;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="فحص الصحة (Check Health)" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Click="CleanOldData_Click" Style="{StaticResource OutlineButton}" Background="#FFF3E0" Foreground="{StaticResource WarningBrush}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="تنظيف البيانات القديمة" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

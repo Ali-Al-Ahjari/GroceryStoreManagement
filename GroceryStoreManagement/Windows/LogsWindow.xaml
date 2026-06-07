@@ -1,0 +1,91 @@
+<Window x:Class="GroceryStoreManagement.Windows.LogsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="سجل النشاطات" Height="600" Width="900" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="CanResize" FlowDirection="RightToLeft" Language="ar-YE" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
+
+    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- العنوان -->
+            <Border Grid.Row="0" Background="{StaticResource PrimaryGradient}" CornerRadius="16,16,0,0" Padding="20,15" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8D3;" FontFamily="{StaticResource IconFont}" FontSize="18" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                        <TextBlock Text="سجل النشاطات" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button Click="BtnClose_Click" Style="{StaticResource IconButton}" Foreground="White" HorizontalAlignment="Left" Margin="820,0,0,0">
+                        <TextBlock Text="&#xE711;" FontFamily="{StaticResource IconFont}" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- الفلاتر -->
+            <Border Grid.Row="1" Padding="20,15">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="{StaticResource BackgroundBrush}" CornerRadius="8" Margin="0,0,15,0">
+                        <TextBox x:Name="TxtSearch" Style="{StaticResource ModernTextBox}" Background="Transparent" Padding="15,12" TextChanged="TxtSearch_TextChanged"/>
+                    </Border>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,15,0">
+                        <TextBlock Text="من:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <DatePicker x:Name="DpFromDate" Width="130" FlowDirection="LeftToRight" SelectedDateChanged="DpFromDate_SelectedDateChanged"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0,0,15,0">
+                        <TextBlock Text="إلى:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <DatePicker x:Name="DpToDate" Width="130" FlowDirection="LeftToRight" SelectedDateChanged="DpToDate_SelectedDateChanged"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" Orientation="Horizontal">
+                        <TextBlock Text="النوع:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <ComboBox x:Name="CmbActionType" Width="120" Style="{StaticResource ModernComboBox}" SelectionChanged="CmbActionType_SelectionChanged" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ComboBoxItem Content="الكل" IsSelected="True"/>
+                            <ComboBoxItem Content="إضافة"/>
+                            <ComboBoxItem Content="تعديل"/>
+                            <ComboBoxItem Content="حذف"/>
+                            <ComboBoxItem Content="دخول"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- جدول السجلات -->
+            <DataGrid x:Name="LogsDataGrid" Grid.Row="2" Style="{StaticResource ModernDataGridStyle}" Margin="20,0,20,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="#" Binding="{Binding LogID}" Width="auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="المستخدم" Binding="{Binding Username}" Width="auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="الإجراء" Binding="{Binding Action}" Width="auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="التفاصيل" Binding="{Binding Details}" Width="auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="التاريخ" Binding="{Binding DisplayDate}" Width="auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- شريط الحالة -->
+            <Border Grid.Row="3" Padding="20,15">
+                <Grid>
+                    <TextBlock x:Name="TxtTotalLogs" Text="إجمالي السجلات: 0" Foreground="{StaticResource TextSecondaryBrush}" Width="300" Margin="145,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <Button x:Name="BtnExport" Click="BtnExport_Click" Style="{StaticResource OutlineButton}" HorizontalAlignment="Left" Padding="15,8">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE118;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                            <TextBlock Text="تصدير" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
+
+</Window>

@@ -1,0 +1,290 @@
+<Window x:Class="GroceryStoreManagement.Windows.SaleDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="فاتورة مبيعات" Height="810" Width="1000" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize" FlowDirection="RightToLeft" Language="ar-YE" PreviewKeyDown="Window_PreviewKeyDown" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
+
+    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- العنوان -->
+            <Border Grid.Row="0" Background="{StaticResource PrimaryGradient}" CornerRadius="16,16,0,0" Padding="20,15" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <StackPanel>
+                            <TextBlock x:Name="HeaderText" Text="فاتورة مبيعات جديدة" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock x:Name="InvoiceNumberText" Text="رقم الفاتورة: جديد" FontSize="12" Foreground="#FFFFFFAA"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="960">
+                        <Button Style="{StaticResource IconButton}" Foreground="White" Margin="870,0,5,0" Click="MinimizeButton_Click">
+                            <TextBlock Text="&#xE921;" FontFamily="{StaticResource IconFont}" />
+                        </Button>
+                        <Button Style="{StaticResource IconButton}" Foreground="White" Click="CloseButton_Click">
+                            <TextBlock Text="&#xE711;" FontFamily="{StaticResource IconFont}" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- المحتوى -->
+            <Grid Grid.Row="1" Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="320"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- القسم الأيسر - إضافة المنتجات -->
+                <Grid Grid.Column="0" Margin="0,0,15,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- اختيار العميل والبحث -->
+                    <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="العميل (F4)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                <Grid>
+                                    <ComboBox x:Name="CustomerComboBox" Style="{StaticResource ModernComboBox}" DisplayMemberPath="Name" SelectedValuePath="CustomerID" SelectionChanged="CustomerComboBox_SelectionChanged" Margin="35,0,0,0"/>
+                                    <Button x:Name="BtnAddCustomer" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Width="43" ToolTip="إضافة عميل جديد" Click="AddCustomer_Click" Margin="-8,1,0,0">
+                                        <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="16"/>
+                                    </Button>
+                                </Grid>
+                                <TextBlock x:Name="CustomerBalanceText" Text="" FontSize="11" Margin="0,2,0,0"/>
+                            </StackPanel>
+
+                            <!-- Scan Button -->
+                            <Button Grid.Column="1" Click="ScanBarcode_Click" Style="{StaticResource OutlineButton}" Margin="0,5,10,0" Height="50">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE814;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="مسح باركود" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                                <TextBlock Text="بحث سريع (F2)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                <TextBox x:Name="QuickSearchBox" Style="{StaticResource ModernTextBox}" Text="بحث سريع عن منتج..." Foreground="Gray" GotFocus="QuickSearchBox_GotFocus" LostFocus="QuickSearchBox_LostFocus" TextChanged="QuickSearchBox_TextChanged"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- إضافة منتج -->
+                    <Border Grid.Row="1" Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="المنتج (F1)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                <ComboBox x:Name="ProductComboBox" Style="{StaticResource ModernComboBox}" DisplayMemberPath="DisplayName" SelectedValuePath="ProductID" IsEditable="True" SelectionChanged="ProductComboBox_SelectionChanged"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                                <TextBlock Text="الكمية" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                <TextBox x:Name="QuantityTextBox" Style="{StaticResource ModernTextBox}" FlowDirection="LeftToRight" TextAlignment="Center" Text="1"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="0,0,10,0">
+                                <TextBlock Text="السعر" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                <TextBox x:Name="PriceTextBox" Style="{StaticResource ModernTextBox}" FlowDirection="LeftToRight" TextAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3" Margin="0,0,10,0">
+                                <TextBlock Text="خصم صنف %" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                <TextBox x:Name="ItemDiscountTextBox" Style="{StaticResource ModernTextBox}" FlowDirection="LeftToRight" TextAlignment="Center" Text="0"/>
+                            </StackPanel>
+
+                            <Button Grid.Column="4" x:Name="BtnAddItem" Style="{StaticResource SecondaryButton}" Padding="15,0" Height="45" VerticalAlignment="Bottom" Click="AddProduct_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="إضافة" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <!-- جدول العناصر -->
+                    <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" CornerRadius="10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                        <DataGrid x:Name="SaleItemsGrid" Style="{StaticResource ModernDataGridStyle}" BorderThickness="0" AutoGenerateColumns="False" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="المنتج" Binding="{Binding ProductName}" Width="Auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                                <DataGridTemplateColumn Header="الكمية" Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Button Content="-" Width="25" Height="25" Click="DecreaseQtyBtn_Click" Style="{StaticResource OutlineButton}" Padding="0"/>
+                                                <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" Margin="10,0" FontWeight="Bold"/>
+                                                <Button Content="+" Width="25" Height="25" Click="IncreaseQtyBtn_Click" Style="{StaticResource OutlineButton}" Padding="0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="السعر" Binding="{Binding UnitPrice, StringFormat='{}{0:#,##0.##}'}" Width="Auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="الخصم %" Binding="{Binding DiscountPercent}" Width="Auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="الإجمالي" Binding="{Binding TotalPrice, StringFormat='{}{0:#,##0.##}'}" Width="Auto" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                                <DataGridTemplateColumn Header="حذف" Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Tag="{Binding ProductID}" Style="{StaticResource IconButton}" Width="30" Height="30" FontSize="12" Click="RemoveProduct_Click">
+                                                <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </Grid>
+
+                <!-- القسم الأيمن - الملخص -->
+                <Border Grid.Column="1" Background="{StaticResource BackgroundBrush}" CornerRadius="12" Padding="20">
+                    <StackPanel>
+
+                        <TextBlock Text="ملخص الفاتورة" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,20"/>
+
+                        <!-- عدد العناصر -->
+                        <Grid Margin="0,0,0,12">
+                            <TextBlock Text="عدد العناصر:" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <TextBlock x:Name="ItemCountText" Text="0" HorizontalAlignment="Left" FontWeight="SemiBold" Margin="79,0,0,0"/>
+                        </Grid>
+
+                        <!-- المجموع الفرعي -->
+                        <Grid Margin="0,0,0,12">
+                            <TextBlock Text="المجموع الفرعي:" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <TextBlock x:Name="SubtotalText" Text="ر.ي. 0" HorizontalAlignment="Left" FontWeight="SemiBold" Margin="91,-2,0,2"/>
+                        </Grid>
+
+                        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,10"/>
+
+                        <!-- الخصم -->
+                        <Grid Margin="0,12,0,12">
+                            <TextBlock Text="الخصم (مبلغ):" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock x:Name="DiscountAmountText" Text="-0" VerticalAlignment="Center" Margin="83,0,0,0" FontSize="11" Foreground="Red"/>
+                                <TextBox x:Name="DiscountTextBox" Width="80" Style="{StaticResource ModernTextBox}" Padding="5" FlowDirection="LeftToRight" TextAlignment="Center" Text="0" TextChanged="CalculateTotals" Margin="10,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- الضريبة -->
+                        <Grid Margin="0,0,0,12">
+                            <TextBlock Text="الضريبة (%):" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock x:Name="TaxAmountText" Text="+0" VerticalAlignment="Center" Margin="80,0,0,0" FontSize="11" Foreground="Green"/>
+                                <TextBox x:Name="TaxTextBox" Width="80" Style="{StaticResource ModernTextBox}" Padding="5" FlowDirection="LeftToRight" TextAlignment="Center" Text="0" TextChanged="CalculateTotals" Margin="10,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,10"/>
+
+                        <!-- الإجمالي النهائي -->
+                        <Grid Margin="0,15,0,20">
+                            <TextBlock Text="الإجمالي النهائي:" FontSize="16" FontWeight="Bold"/>
+                            <TextBlock x:Name="TotalAmountText" Text="ر.ي. 0" HorizontalAlignment="Left" FontSize="22" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="126,-3,0,3" Width="154" Height="40"/>
+                        </Grid>
+
+                        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,0,0,15"/>
+
+                        <!-- طريقة الدفع -->
+                        <TextBlock Text="طريقة الدفع" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                        <ComboBox x:Name="PaymentMethodComboBox" Style="{StaticResource ModernComboBox}" Margin="0,0,0,15" SelectionChanged="CalculateTotals">
+                            <ComboBoxItem Content="نقدي" IsSelected="True"/>
+                            <ComboBoxItem Content="بطاقة"/>
+                            <ComboBoxItem Content="تحويل بنكي"/>
+                            <ComboBoxItem Content="آجل / جزئي"/>
+                        </ComboBox>
+
+                        <!-- المبلغ المدفوع -->
+                        <TextBlock Text="المبلغ المدفوع" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                        <TextBox x:Name="PaidAmountTextBox" Style="{StaticResource ModernTextBox}" FlowDirection="LeftToRight" TextAlignment="Center" Text="0" Margin="0,0,0,10" TextChanged="CalculateTotals"/>
+
+                        <!-- المتبقي -->
+                        <Grid Margin="0,0,0,15">
+                            <TextBlock Text="المتبقي:" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <TextBlock x:Name="RemainingAmountText" Text="ر.ي. 0" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{StaticResource ErrorBrush}" Margin="57,0,0,0"/>
+                        </Grid>
+
+                        <!-- تاريخ الاستحقاق (يظهر عند وجود متبقي) -->
+                        <StackPanel x:Name="RemainingPaymentPanel" Visibility="Collapsed" Margin="0,0,0,15">
+                            <TextBlock Text="تاريخ استحقاق المتبقي" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource ErrorBrush}" Margin="0,0,0,8"/>
+                            <DatePicker x:Name="DueDatePicker" FlowDirection="LeftToRight"/>
+                        </StackPanel>
+
+                        <!-- ملاحظات -->
+                        <TextBlock Text="ملاحظات" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                        <TextBox x:Name="NotesTextBox" Style="{StaticResource ModernTextBox}" Height="60" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top"/>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- أزرار الإجراءات -->
+            <Border Grid.Row="2" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,1,0,0" Padding="20,15">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="BtnResumeSuspended" Style="{StaticResource OutlineButton}" Padding="15,10" Margin="0,0,10,0" Click="ResumeSuspended_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8B5;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="استدعاء معلّق" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnSuspend" Style="{StaticResource OutlineButton}" Padding="15,10" Margin="0,0,10,0" Click="SuspendSale_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE7C3;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="تعليق الفاتورة" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnQuote" Style="{StaticResource OutlineButton}" Padding="15,10" Margin="0,0,10,0" Click="ConvertToQuote_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="عرض سعر" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" FlowDirection="LeftToRight">
+                        <Button x:Name="BtnCancel" Style="{StaticResource OutlineButton}" Padding="20,12" Margin="0,0,10,0" Click="CancelButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE711;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="إلغاء (Esc)" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnSaveAndPrint" Style="{StaticResource SecondaryButton}" Padding="20,12" Margin="0,0,10,0" Click="SaveAndPrint_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE749;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="حفظ وطباعة (Ctrl+P)" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnSave" Style="{StaticResource PrimaryButton}" Padding="20,12" Click="SaveSale_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE74E;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="حفظ (Ctrl+S)" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
+
+</Window>
+
+

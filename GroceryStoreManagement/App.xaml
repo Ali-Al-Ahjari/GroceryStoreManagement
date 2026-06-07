@@ -1,0 +1,21 @@
+<Application x:Class="GroceryStoreManagement.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="Windows/LoginWindow.xaml">
+
+    <!--
+    ═══════════════════════════════════════════════════════════════════════════════
+    App.xaml - ملف إعدادات التطبيق الرئيسي
+    يحتوي على الموارد المشتركة (ألوان، أنماط) المستخدمة في كل أنحاء التطبيق
+    ═══════════════════════════════════════════════════════════════════════════════
+    -->
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- دمج ملف الأنماط المشتركة -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

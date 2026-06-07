@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="GroceryStoreManagement.Windows.InventoryWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Language="ar-YE" Background="{StaticResource BackgroundBrush}">
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header & Stats -->
+            <RowDefinition Height="Auto"/>
+            <!-- Filters -->
+            <RowDefinition Height="*"/>
+            <!-- DataGrid -->
+        </Grid.RowDefinitions>
+
+        <!-- 1. Header & Stats Cards -->
+        <Grid Grid.Row="0" Margin="0,0,0,25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Title -->
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="إدارة المخزون" Style="{StaticResource HeaderLabel}"/>
+                <TextBlock Text="متابعة حالة المخزون والمنتجات" Style="{StaticResource BodyLabel}" Margin="0,5,0,0"/>
+            </StackPanel>
+
+            <!-- Stats Cards -->
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="إجمالي الأصناف" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TxtTotalProducts" Text="0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="منخفض المخزون" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TxtLowStock" Text="0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource WarningBrush}" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="نفد من المخزون" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TxtOutOfStock" Text="0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource ErrorBrush}" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="3" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="قيمة المخزون" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TxtInventoryValue" Text="0.00" FontSize="20" FontWeight="Bold" Foreground="{StaticResource SecondaryBrush}" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- 2. Actions & Filters -->
+        <Border Grid.Row="1" Style="{StaticResource CardBorder}" Margin="0,0,0,20" Padding="15">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <Grid HorizontalAlignment="Left" MinWidth="900">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Search -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Category -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Stock Status -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Spacer -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Export -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Search -->
+                <Grid Grid.Column="0" Margin="0,0,15,0" Width="250">
+                    <TextBox x:Name="TxtSearch" Style="{StaticResource ModernTextBox}" Padding="30,10,10,10" TextChanged="TxtSearch_TextChanged"/>
+                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="16" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="#AAA">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=TxtSearch}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,15,0">
+                    <TextBlock Text="الفئة:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox x:Name="CmbCategory" Width="150" Style="{StaticResource ModernComboBox}" SelectionChanged="CmbCategory_SelectionChanged"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0,0,15,0">
+                    <TextBlock Text="الحالة:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox x:Name="CmbStockStatus" Width="130" Style="{StaticResource ModernComboBox}" SelectionChanged="CmbStockStatus_SelectionChanged">
+                        <ComboBoxItem Content="الكل" IsSelected="True"/>
+                        <ComboBoxItem Content="نفد"/>
+                        <ComboBoxItem Content="منخفض"/>
+                        <ComboBoxItem Content="جيد"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <Button Grid.Column="4" Style="{StaticResource OutlineButton}" Click="BtnExport_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE896;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="تصدير" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <!-- 3. DataGrid -->
+        <Border Grid.Row="2" Style="{StaticResource CardBorder}" Padding="0">
+            <DataGrid x:Name="InventoryDataGrid" Style="{StaticResource ModernDataGridStyle}" AutoGenerateColumns="False" BorderThickness="0" MouseDoubleClick="InventoryDataGrid_MouseDoubleClick" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="الباركود" Binding="{Binding Code}" Width="120" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="اسم المنتج" Binding="{Binding Name}" Width="*" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="الفئة" Binding="{Binding Category}" Width="120" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="الكمية" Binding="{Binding Quantity}" Width="80" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="الحد الأدنى" Binding="{Binding MinQuantity}" Width="100" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTextColumn Header="سعر البيع" Binding="{Binding SellingPrice, StringFormat='{}{0:#,##0.##}'}" Width="120" ElementStyle="{StaticResource DataGridTextColumnElementStyle}"/>
+                    <DataGridTemplateColumn Header="الإجراءات" Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource IconButton}" ToolTip="تحديث الكمية" Tag="{Binding ProductID}" Click="BtnUpdateQuantity_Click">
+                                    <TextBlock Text="&#xE7B8;" FontFamily="{StaticResource IconFont}" FontSize="14"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>
+
+
