@@ -76,7 +76,7 @@
 
                             <StackPanel Grid.Column="2" Margin="10,0,0,0">
                                 <TextBlock Text="بحث سريع (F2)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
-                                <TextBox x:Name="QuickSearchBox" Style="{StaticResource ModernTextBox}" Text="بحث سريع عن منتج..." Foreground="Gray" GotFocus="QuickSearchBox_GotFocus" LostFocus="QuickSearchBox_LostFocus" TextChanged="QuickSearchBox_TextChanged"/>
+                                <TextBox x:Name="QuickSearchBox" Style="{StaticResource ModernTextBox}" Text="بحث سريع عن منتج..." Foreground="{StaticResource BrushTextMuted}" GotFocus="QuickSearchBox_GotFocus" LostFocus="QuickSearchBox_LostFocus" TextChanged="QuickSearchBox_TextChanged"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -178,7 +178,7 @@
                         <Grid Margin="0,12,0,12">
                             <TextBlock Text="الخصم (مبلغ):" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <TextBlock x:Name="DiscountAmountText" Text="-0" VerticalAlignment="Center" Margin="83,0,0,0" FontSize="11" Foreground="Red"/>
+                                <TextBlock x:Name="DiscountAmountText" Text="-0" VerticalAlignment="Center" Margin="83,0,0,0" FontSize="11" Foreground="{StaticResource BrushError}"/>
                                 <TextBox x:Name="DiscountTextBox" Width="80" Style="{StaticResource ModernTextBox}" Padding="5" FlowDirection="LeftToRight" TextAlignment="Center" Text="0" TextChanged="CalculateTotals" Margin="10,0,0,0"/>
                             </StackPanel>
                         </Grid>
@@ -187,7 +187,7 @@
                         <Grid Margin="0,0,0,12">
                             <TextBlock Text="الضريبة (%):" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <TextBlock x:Name="TaxAmountText" Text="+0" VerticalAlignment="Center" Margin="80,0,0,0" FontSize="11" Foreground="Green"/>
+                                <TextBlock x:Name="TaxAmountText" Text="+0" VerticalAlignment="Center" Margin="80,0,0,0" FontSize="11" Foreground="{StaticResource BrushSuccess}"/>
                                 <TextBox x:Name="TaxTextBox" Width="80" Style="{StaticResource ModernTextBox}" Padding="5" FlowDirection="LeftToRight" TextAlignment="Center" Text="0" TextChanged="CalculateTotals" Margin="10,0,0,0"/>
                             </StackPanel>
                         </Grid>
