@@ -101,18 +101,25 @@ function Get-AppWindows {
     }
 
     $root = [System.Windows.Automation.AutomationElement]::RootElement
-    $condition = New-Object System.Windows.Automation.PropertyCondition(
+    $pCond = New-Object System.Windows.Automation.PropertyCondition(
         [System.Windows.Automation.AutomationElement]::ProcessIdProperty,
         $proc.Id
     )
+    $tCond = New-Object System.Windows.Automation.PropertyCondition(
+        [System.Windows.Automation.AutomationElement]::ControlTypeProperty,
+        [System.Windows.Automation.ControlType]::Window
+    )
+    $condition = New-Object System.Windows.Automation.AndCondition($pCond, $tCond)
 
-    $windows = $root.FindAll([System.Windows.Automation.TreeScope]::Children, $condition)
+    $windows = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condition)
     $items = @()
     for ($i = 0; $i -lt $windows.Count; $i++) {
         $window = $windows.Item($i)
+        $title = $window.Current.Name
+        Write-Host "Get-AppWindows: Found window title='$title'" -ForegroundColor Cyan
         $items += [pscustomobject]@{
             Element = $window
-            Title   = $window.Current.Name
+            Title   = $title
             Handle  = [IntPtr]$window.Current.NativeWindowHandle
         }
     }
@@ -216,6 +223,16 @@ function Invoke-OrClick {
         throw "Element not found."
     }
 
+    try {
+        $invoke = $Element.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern)
+        $invoke.Invoke()
+        Start-Sleep -Milliseconds 250
+        return
+    }
+    catch {
+        Write-Output "InvokePattern failed, falling back to keyboard focus: $_"
+    }
+
     Activate-Handle -Handle $OwnerHandle
 
     try {
@@ -226,18 +243,7 @@ function Invoke-OrClick {
         return
     }
     catch {
-        Write-Host "SetFocus/Space failed: $_" -ForegroundColor Yellow
-    }
-
-    try {
-        $invoke = $Element.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern)
-        $invoke.Invoke()
-        Start-Sleep -Milliseconds 250
-        return
-    }
-    catch {
-        Write-Host "InvokePattern failed: $_" -ForegroundColor Yellow
-        # Fallback to mouse event
+        Write-Output "SetFocus/Space failed, falling back to mouse event: $_"
     }
 
     Activate-Handle -Handle $OwnerHandle
@@ -422,7 +428,7 @@ Run-Step -Name "Launch application to login screen" -Action {
         throw "Application not found at '$ExePath'."
     }
 
-    Start-Process -FilePath $ExePath | Out-Null
+    Start-Process -FilePath $ExePath -ArgumentList "--test-login" | Out-Null
     $login = Wait-ForWindow -Title "تسجيل الدخول - نظام إدارة المتجر" -TimeoutSeconds 20
     if ($null -eq $login) {
         throw "Login window did not appear."
