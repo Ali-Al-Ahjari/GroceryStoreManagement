@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="سداد دفعة" Height="700" Width="500" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize" FlowDirection="RightToLeft" Language="ar-YE" ShowInTaskbar="False" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
 
-    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+    <Border CornerRadius="16" Background="{DynamicResource SurfaceBrush}" Effect="{DynamicResource CardShadow}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -11,7 +11,7 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <Border Grid.Row="0" Background="{StaticResource SecondaryGradient}" CornerRadius="16,16,0,0" Padding="20,15" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+            <Border Grid.Row="0" Background="{DynamicResource SecondaryGradient}" CornerRadius="16,16,0,0" Padding="20,15" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <Grid FlowDirection="LeftToRight">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -29,7 +29,7 @@
                 <StackPanel>
 
                     <!-- Info Box -->
-                    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,20">
+                    <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,20">
                         <Grid Grid.IsSharedSizeScope="True">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -44,20 +44,20 @@
                                 <ColumnDefinition Width="*" SharedSizeGroup="PaymentInfoValue"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="رقم الفاتورة:" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="رقم الفاتورة:" Foreground="{DynamicResource TextSecondaryBrush}"/>
                             <TextBlock Grid.Row="0" Grid.Column="2" x:Name="InvoiceNumberText" FontWeight="Bold" TextAlignment="Left" FlowDirection="LeftToRight"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="العميل:" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,10,0,0"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="العميل:" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,10,0,0"/>
                             <TextBlock Grid.Row="1" Grid.Column="2" x:Name="CustomerNameText" FontWeight="Bold" Margin="0,10,0,0"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="الإجمالي:" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,10,0,0"/>
-                            <TextBlock Grid.Row="2" Grid.Column="2" x:Name="TotalAmountText" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" TextAlignment="Left" FlowDirection="LeftToRight" Margin="0,10,0,0"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="الإجمالي:" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,10,0,0"/>
+                            <TextBlock Grid.Row="2" Grid.Column="2" x:Name="TotalAmountText" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" TextAlignment="Left" FlowDirection="LeftToRight" Margin="0,10,0,0"/>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="المدفوع:" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,10,0,0"/>
-                            <TextBlock Grid.Row="3" Grid.Column="2" x:Name="PaidAmountText" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" TextAlignment="Left" FlowDirection="LeftToRight" Margin="0,10,0,0"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="المدفوع:" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,10,0,0"/>
+                            <TextBlock Grid.Row="3" Grid.Column="2" x:Name="PaidAmountText" FontWeight="Bold" Foreground="{DynamicResource SuccessBrush}" TextAlignment="Left" FlowDirection="LeftToRight" Margin="0,10,0,0"/>
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="المتبقي:" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,10,0,0"/>
-                            <TextBlock Grid.Row="4" Grid.Column="2" x:Name="RemainingAmountText" FontWeight="Bold" Foreground="{StaticResource ErrorBrush}" TextAlignment="Left" FlowDirection="LeftToRight" Margin="0,10,0,0"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="المتبقي:" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,10,0,0"/>
+                            <TextBlock Grid.Row="4" Grid.Column="2" x:Name="RemainingAmountText" FontWeight="Bold" Foreground="{DynamicResource ErrorBrush}" TextAlignment="Left" FlowDirection="LeftToRight" Margin="0,10,0,0"/>
                         </Grid>
                     </Border>
 
@@ -99,7 +99,7 @@
             </ScrollViewer>
 
             <!-- Actions -->
-            <Border Grid.Row="2" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,1,0,0" Padding="20,15">
+            <Border Grid.Row="2" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="0,1,0,0" Padding="20,15">
                 <Grid HorizontalAlignment="Right">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>

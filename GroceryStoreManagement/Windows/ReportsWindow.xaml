@@ -1,7 +1,7 @@
 <UserControl x:Class="GroceryStoreManagement.Windows.ReportsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" FlowDirection="RightToLeft" Language="ar-YE" Background="{StaticResource BackgroundBrush}">
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" FlowDirection="RightToLeft" Language="ar-YE" Background="{DynamicResource BackgroundBrush}">
 
     <Grid Margin="25">
         <Grid.RowDefinitions>
@@ -135,10 +135,10 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Padding="15,10" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,0,0,1">
+                        <Border Grid.Row="0" Padding="15,10" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="0,0,0,1">
                             <Grid>
-                                <TextBlock x:Name="DataGridTitle" Text="التفاصيل" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                <TextBlock x:Name="DataGridCount" Text="0 سجل" HorizontalAlignment="Left" Foreground="{StaticResource TextMutedBrush}"/>
+                                <TextBlock x:Name="DataGridTitle" Text="التفاصيل" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock x:Name="DataGridCount" Text="0 سجل" HorizontalAlignment="Left" Foreground="{DynamicResource TextMutedBrush}"/>
                             </Grid>
                         </Border>
                         <DataGrid x:Name="ReportDataGrid" Grid.Row="1" Style="{StaticResource ModernDataGridStyle}" BorderThickness="0"/>
@@ -146,80 +146,80 @@
                 </Border>
             </Grid>
 
-            <!-- ملخص التقرير (Genric Cards) -->
+            <!-- ملخص التقرير (Generic Cards) -->
             <Border Grid.Column="1" Style="{StaticResource CardBorder}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <TextBlock Text="&#xE8C8; ملخص التقرير" FontFamily="{StaticResource IconFont}" Style="{StaticResource SubHeaderLabel}" Margin="0,0,0,20"/>
 
                         <!-- Card 1 -->
-                        <Border Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+                        <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#E0E7FF" Margin="0,0,10,0">
+                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource InfoBrushMuted}" Margin="0,0,10,0">
                                     <TextBlock x:Name="Card1Icon" Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
                                 </Border>
                                 <StackPanel Grid.Column="1">
                                     <TextBlock x:Name="Card1Title" Text="--" Style="{StaticResource BodyLabel}" FontSize="12"/>
-                                    <TextBlock x:Name="Card1Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
-                                    <TextBlock x:Name="Card1Trend" Text="--" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/>
+                                    <TextBlock x:Name="Card1Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}"/>
+                                    <TextBlock x:Name="Card1Trend" Text="--" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
 
                         <!-- Card 2 -->
-                        <Border Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+                        <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#E8F5E9" Margin="0,0,10,0">
+                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource SuccessBrushMuted}" Margin="0,0,10,0">
                                     <TextBlock x:Name="Card2Icon" Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
                                 </Border>
                                 <StackPanel Grid.Column="1">
                                     <TextBlock x:Name="Card2Title" Text="--" Style="{StaticResource BodyLabel}" FontSize="12"/>
-                                    <TextBlock x:Name="Card2Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{StaticResource SecondaryBrush}"/>
-                                    <TextBlock x:Name="Card2Trend" Text="--" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/>
+                                    <TextBlock x:Name="Card2Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource SecondaryBrush}"/>
+                                    <TextBlock x:Name="Card2Trend" Text="--" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
 
                         <!-- Card 3 -->
-                        <Border Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+                        <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#FFF3E0" Margin="0,0,10,0">
+                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource SurfaceBrush}" Margin="0,0,10,0">
                                     <TextBlock x:Name="Card3Icon" Text="&#xE7B8;" FontFamily="{StaticResource IconFont}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
                                 </Border>
                                 <StackPanel Grid.Column="1">
                                     <TextBlock x:Name="Card3Title" Text="--" Style="{StaticResource BodyLabel}" FontSize="12"/>
-                                    <TextBlock x:Name="Card3Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{StaticResource WarningBrush}"/>
-                                    <TextBlock x:Name="Card3Trend" Text="--" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/>
+                                    <TextBlock x:Name="Card3Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource WarningBrush}"/>
+                                    <TextBlock x:Name="Card3Trend" Text="--" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
 
                         <!-- Card 4 -->
-                        <Border Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15">
+                        <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="10" Padding="15">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#F3E5F5" Margin="0,0,10,0">
+                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource SurfaceBrush}" Margin="0,0,10,0">
                                     <TextBlock x:Name="Card4Icon" Text="&#xE9D2;" FontFamily="{StaticResource IconFont}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
                                 </Border>
                                 <StackPanel Grid.Column="1">
                                     <TextBlock x:Name="Card4Title" Text="--" Style="{StaticResource BodyLabel}" FontSize="12"/>
-                                    <TextBlock x:Name="Card4Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{StaticResource InfoBrush}"/>
-                                    <TextBlock x:Name="Card4Trend" Text="--" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/>
+                                    <TextBlock x:Name="Card4Value" Text="--" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource InfoBrush}"/>
+                                    <TextBlock x:Name="Card4Trend" Text="--" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -230,3 +230,4 @@
         </Grid>
     </Grid>
 </UserControl>
+

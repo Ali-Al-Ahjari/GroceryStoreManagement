@@ -15,6 +15,7 @@ namespace GroceryStoreManagement.Windows
         public NotificationsWindow()
         {
             InitializeComponent();
+            ThemeManager.ApplyWindowBackdrop(this);
             LoadNotifications();
         }
 
@@ -93,6 +94,14 @@ namespace GroceryStoreManagement.Windows
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void DragWindow(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
     }
 }

@@ -29,6 +29,7 @@ namespace GroceryStoreManagement.Windows
 
         private void LicenseActivationWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            ThemeManager.ApplyWindowBackdrop(this);
             TxtMachineFingerprint.Text = LicenseService.GetMachineFingerprint();
             RefreshCurrentLicenseStatus();
             UpdateActivationCodeState();
@@ -249,24 +250,24 @@ namespace GroceryStoreManagement.Windows
             switch (currentStatus.State)
             {
                 case LicenseState.Active:
-                    TxtCurrentLicenseState.Foreground = CreateBrush("#166534");
-                    TxtCurrentLicenseExpiry.Foreground = CreateBrush("#166534");
+                    TxtCurrentLicenseState.Foreground = (Brush)FindResource("SuccessBrush");
+                    TxtCurrentLicenseExpiry.Foreground = (Brush)FindResource("SuccessBrush");
                     break;
 
                 case LicenseState.Expired:
-                    TxtCurrentLicenseState.Foreground = CreateBrush("#B45309");
-                    TxtCurrentLicenseExpiry.Foreground = CreateBrush("#92400E");
+                    TxtCurrentLicenseState.Foreground = (Brush)FindResource("WarningBrush");
+                    TxtCurrentLicenseExpiry.Foreground = (Brush)FindResource("WarningBrush");
                     break;
 
                 case LicenseState.Locked:
-                    TxtCurrentLicenseState.Foreground = CreateBrush("#991B1B");
-                    TxtCurrentLicenseExpiry.Foreground = CreateBrush("#991B1B");
+                    TxtCurrentLicenseState.Foreground = (Brush)FindResource("ErrorBrush");
+                    TxtCurrentLicenseExpiry.Foreground = (Brush)FindResource("ErrorBrush");
                     break;
 
                 case LicenseState.NotActivated:
                 default:
-                    TxtCurrentLicenseState.Foreground = CreateBrush("#1E40AF");
-                    TxtCurrentLicenseExpiry.Foreground = CreateBrush("#334155");
+                    TxtCurrentLicenseState.Foreground = (Brush)FindResource("InfoBrush");
+                    TxtCurrentLicenseExpiry.Foreground = (Brush)FindResource("TextSecondaryBrush");
                     break;
             }
         }
@@ -279,32 +280,32 @@ namespace GroceryStoreManagement.Windows
             switch (tone)
             {
                 case InlineStatusTone.Success:
-                    StatusBanner.Background = CreateBrush("#ECFDF5");
-                    StatusBanner.BorderBrush = CreateBrush("#86EFAC");
-                    TxtStatusTitle.Foreground = CreateBrush("#166534");
-                    TxtStatusMessage.Foreground = CreateBrush("#166534");
+                    StatusBanner.Background = (Brush)FindResource("SuccessBrushMuted");
+                    StatusBanner.BorderBrush = (Brush)FindResource("SuccessBrush");
+                    TxtStatusTitle.Foreground = (Brush)FindResource("SuccessBrush");
+                    TxtStatusMessage.Foreground = (Brush)FindResource("SuccessBrush");
                     break;
 
                 case InlineStatusTone.Warning:
-                    StatusBanner.Background = CreateBrush("#FFF7ED");
-                    StatusBanner.BorderBrush = CreateBrush("#FDBA74");
-                    TxtStatusTitle.Foreground = CreateBrush("#9A3412");
-                    TxtStatusMessage.Foreground = CreateBrush("#7C2D12");
+                    StatusBanner.Background = (Brush)FindResource("WarningBrushMuted");
+                    StatusBanner.BorderBrush = (Brush)FindResource("WarningBrush");
+                    TxtStatusTitle.Foreground = (Brush)FindResource("WarningBrush");
+                    TxtStatusMessage.Foreground = (Brush)FindResource("WarningBrush");
                     break;
 
                 case InlineStatusTone.Error:
-                    StatusBanner.Background = CreateBrush("#FEF2F2");
-                    StatusBanner.BorderBrush = CreateBrush("#FCA5A5");
-                    TxtStatusTitle.Foreground = CreateBrush("#991B1B");
-                    TxtStatusMessage.Foreground = CreateBrush("#991B1B");
+                    StatusBanner.Background = (Brush)FindResource("ErrorBrushMuted");
+                    StatusBanner.BorderBrush = (Brush)FindResource("ErrorBrush");
+                    TxtStatusTitle.Foreground = (Brush)FindResource("ErrorBrush");
+                    TxtStatusMessage.Foreground = (Brush)FindResource("ErrorBrush");
                     break;
 
                 case InlineStatusTone.Info:
                 default:
-                    StatusBanner.Background = CreateBrush("#EFF6FF");
-                    StatusBanner.BorderBrush = CreateBrush("#BFDBFE");
-                    TxtStatusTitle.Foreground = CreateBrush("#1E40AF");
-                    TxtStatusMessage.Foreground = CreateBrush("#334155");
+                    StatusBanner.Background = (Brush)FindResource("InfoBrushMuted");
+                    StatusBanner.BorderBrush = (Brush)FindResource("InfoBrush");
+                    TxtStatusTitle.Foreground = (Brush)FindResource("InfoBrush");
+                    TxtStatusMessage.Foreground = (Brush)FindResource("TextSecondaryBrush");
                     break;
             }
         }
@@ -342,11 +343,6 @@ namespace GroceryStoreManagement.Windows
             _ = builder.AppendLine("المدة المطلوبة: 30 يوم");
             _ = builder.Append("الرجاء ارسال كود التفعيل.");
             return builder.ToString();
-        }
-
-        private static Brush CreateBrush(string hexColor)
-        {
-            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexColor));
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)

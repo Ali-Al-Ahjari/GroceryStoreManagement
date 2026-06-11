@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="سداد دين العميل" Height="600" Width="400" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize" FlowDirection="RightToLeft" Language="ar-YE" ShowInTaskbar="False" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
 
-    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+    <Border CornerRadius="16" Background="{DynamicResource SurfaceBrush}" Effect="{DynamicResource CardShadow}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -11,7 +11,7 @@
             </Grid.RowDefinitions>
 
             <!-- العنوان -->
-            <Border Grid.Row="0" Background="{StaticResource SecondaryGradient}" CornerRadius="16,16,0,0" Padding="20,15">
+            <Border Grid.Row="0" Background="{DynamicResource SecondaryGradient}" CornerRadius="16,16,0,0" Padding="20,15">
                 <Grid>
                     <TextBlock Text="💰 سداد دين العميل" FontSize="18" FontWeight="Bold" Foreground="White"/>
                     <Button Style="{StaticResource IconButton}" Foreground="White" HorizontalAlignment="Left" Click="BtnClose_Click" Margin="320,0,0,0">
@@ -24,12 +24,12 @@
             <StackPanel Grid.Row="1" Margin="25,20">
 
                 <!-- معلومات العميل -->
-                <Border Background="{StaticResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,20">
+                <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="10" Padding="15" Margin="0,0,0,20">
                     <StackPanel>
                         <TextBlock x:Name="TxtCustomerName" Text="اسم العميل" FontSize="16" FontWeight="Bold"/>
                         <Grid Margin="0,10,0,0">
-                            <TextBlock Text="إجمالي الدين:" Foreground="{StaticResource TextSecondaryBrush}"/>
-                            <TextBlock x:Name="TxtTotalDebt" Text="ر.ي. 0" HorizontalAlignment="Left" FontWeight="Bold" FontSize="18" Foreground="{StaticResource ErrorBrush}" Margin="79,-5,0,5"/>
+                            <TextBlock Text="إجمالي الدين:" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            <TextBlock x:Name="TxtTotalDebt" Text="ر.ي. 0" HorizontalAlignment="Left" FontWeight="Bold" FontSize="18" Foreground="{DynamicResource ErrorBrush}" Margin="79,-5,0,5"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -37,7 +37,7 @@
                 <!-- مبلغ السداد -->
                 <TextBlock Text="مبلغ السداد" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
                 <TextBox x:Name="TxtPaymentAmount" Style="{StaticResource ModernTextBox}" FontSize="20" FontWeight="Bold" TextAlignment="Center" FlowDirection="LeftToRight" Margin="0,0,0,8" TextChanged="TxtPaymentAmount_TextChanged"/>
-                <TextBlock x:Name="TxtEstimatedRemaining" Text="المتبقي بعد السداد: ر.ي. 0" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,15"/>
+                <TextBlock x:Name="TxtEstimatedRemaining" Text="المتبقي بعد السداد: ر.ي. 0" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,15"/>
 
                 <!-- أزرار سريعة -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
@@ -60,7 +60,7 @@
             </StackPanel>
 
             <!-- أزرار الإجراءات -->
-            <Border Grid.Row="2" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,1,0,0" Padding="20,15">
+            <Border Grid.Row="2" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="0,1,0,0" Padding="20,15">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" FlowDirection="LeftToRight">
                     <Button x:Name="BtnConfirm" Click="BtnConfirm_Click" Style="{StaticResource SecondaryButton}" Padding="25,12" Margin="0,0,10,0">
                         <StackPanel Orientation="Horizontal">

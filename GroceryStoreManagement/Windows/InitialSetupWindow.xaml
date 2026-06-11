@@ -6,7 +6,7 @@
     AllowsTransparency="True" Background="Transparent"
     FlowDirection="RightToLeft" Language="ar-YE" ResizeMode="NoResize" ShowInTaskbar="False" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
 
-    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+    <Border CornerRadius="16" Background="{DynamicResource SurfaceBrush}" Effect="{DynamicResource CardShadow}" MouseLeftButtonDown="DragWindow">
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

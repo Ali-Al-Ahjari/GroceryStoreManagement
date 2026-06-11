@@ -26,8 +26,12 @@ public static class UiSmokeNative
     [DllImport("user32.dll")]
     public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, UIntPtr dwExtraInfo);
 
+    [DllImport("user32.dll")]
+    public static extern IntPtr PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
     public const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
     public const uint MOUSEEVENTF_LEFTUP = 0x0004;
+    public const uint WM_CLOSE = 0x0010;
 }
 "@
 
@@ -80,19 +84,40 @@ function Wait-Until {
     return $null
 }
 
+$global:AppProcess = $null
+
 function Get-AppProcess {
+    if ($null -ne $global:AppProcess) {
+        try {
+            if ($global:AppProcess.HasExited) {
+                return $null
+            }
+            return $global:AppProcess
+        }
+        catch {
+            return $null
+        }
+    }
     return Get-Process GroceryStoreManagement -ErrorAction SilentlyContinue |
         Sort-Object StartTime -Descending |
         Select-Object -First 1
 }
 
 function Stop-App {
-    $proc = Get-AppProcess
-    if ($null -ne $proc) {
-        Stop-Process -Id $proc.Id -Force
-        $null = Wait-Until -TimeoutSeconds 10 -Condition { -not (Get-AppProcess) }
+    $processes = Get-Process GroceryStoreManagement -ErrorAction SilentlyContinue
+    if ($processes) {
+        foreach ($proc in $processes) {
+            try {
+                Stop-Process -Id $proc.Id -Force
+            } catch {}
+        }
+        $null = Wait-Until -TimeoutSeconds 10 -Condition {
+            -not (Get-Process GroceryStoreManagement -ErrorAction SilentlyContinue)
+        }
     }
+    $global:AppProcess = $null
 }
+
 
 function Get-AppWindows {
     $proc = Get-AppProcess
@@ -230,7 +255,27 @@ function Invoke-OrClick {
         return
     }
     catch {
-        Write-Output "InvokePattern failed, falling back to keyboard focus: $_"
+        Write-Output "InvokePattern failed, falling back to mouse event: $_"
+    }
+
+    Activate-Handle -Handle $OwnerHandle
+    
+    try {
+        $rect = $Element.Current.BoundingRectangle
+        if ($rect.Width -gt 0 -and $rect.Height -gt 0) {
+            $x = [int]($rect.Left + ($rect.Width / 2))
+            $y = [int]($rect.Top + ($rect.Height / 2))
+            [UiSmokeNative]::SetCursorPos($x, $y) | Out-Null
+            Start-Sleep -Milliseconds 100
+            [UiSmokeNative]::mouse_event([UiSmokeNative]::MOUSEEVENTF_LEFTDOWN, 0, 0, 0, [UIntPtr]::Zero)
+            Start-Sleep -Milliseconds 50
+            [UiSmokeNative]::mouse_event([UiSmokeNative]::MOUSEEVENTF_LEFTUP, 0, 0, 0, [UIntPtr]::Zero)
+            Start-Sleep -Milliseconds 250
+            return
+        }
+    }
+    catch {
+        Write-Output "Mouse event failed, falling back to keyboard focus: $_"
     }
 
     Activate-Handle -Handle $OwnerHandle
@@ -243,25 +288,12 @@ function Invoke-OrClick {
         return
     }
     catch {
-        Write-Output "SetFocus/Space failed, falling back to mouse event: $_"
-    }
-
-    Activate-Handle -Handle $OwnerHandle
-    $rect = $Element.Current.BoundingRectangle
-    if ($rect.Width -gt 0 -and $rect.Height -gt 0) {
-        $x = [int]($rect.Left + ($rect.Width / 2))
-        $y = [int]($rect.Top + ($rect.Height / 2))
-        [UiSmokeNative]::SetCursorPos($x, $y) | Out-Null
-        Start-Sleep -Milliseconds 100
-        [UiSmokeNative]::mouse_event([UiSmokeNative]::MOUSEEVENTF_LEFTDOWN, 0, 0, 0, [UIntPtr]::Zero)
-        Start-Sleep -Milliseconds 50
-        [UiSmokeNative]::mouse_event([UiSmokeNative]::MOUSEEVENTF_LEFTUP, 0, 0, 0, [UIntPtr]::Zero)
-        Start-Sleep -Milliseconds 250
-        return
+        Write-Output "SetFocus/Space failed: $_"
     }
 
     throw "Element has no clickable bounds and InvokePattern is unavailable."
 }
+
 
 function Click-ByAutomationId {
     param(
@@ -343,8 +375,25 @@ function Close-WindowElement {
         return
     }
 
-    Activate-Handle -Handle ([IntPtr]$Window.Current.NativeWindowHandle)
-    $wshell.SendKeys("%{F4}")
+    try {
+        $pattern = $Window.GetCurrentPattern([System.Windows.Automation.WindowPattern]::Pattern)
+        $pattern.Close()
+        Start-Sleep -Milliseconds 250
+        return
+    }
+    catch {
+        Write-Output "WindowPattern.Close() failed, falling back to PostMessage WM_CLOSE: $_"
+    }
+
+    try {
+        $handle = [IntPtr]$Window.Current.NativeWindowHandle
+        if ($handle -ne [IntPtr]::Zero) {
+            [UiSmokeNative]::PostMessage($handle, [UiSmokeNative]::WM_CLOSE, [IntPtr]::Zero, [IntPtr]::Zero) | Out-Null
+        }
+    } catch {
+        Write-Output "PostMessage failed: $_"
+    }
+    Start-Sleep -Milliseconds 250
 }
 
 function Confirm-DialogByEnter {
@@ -380,18 +429,69 @@ function Assert-PageTitle {
     return $title
 }
 
+function Dump-ApplicationWindows {
+    $proc = Get-AppProcess
+    if ($null -eq $proc) {
+        Write-Host "[DUMP] No active AppProcess tracked." -ForegroundColor DarkYellow
+        # Try finding any process just in case
+        $proc = Get-Process GroceryStoreManagement -ErrorAction SilentlyContinue | Sort-Object StartTime -Descending | Select-Object -First 1
+        if ($null -eq $proc) {
+            Write-Host "[DUMP] No GroceryStoreManagement process found at all." -ForegroundColor Red
+            return
+        }
+    }
+    
+    $root = [System.Windows.Automation.AutomationElement]::RootElement
+    $pCond = New-Object System.Windows.Automation.PropertyCondition(
+        [System.Windows.Automation.AutomationElement]::ProcessIdProperty,
+        $proc.Id
+    )
+    
+    $windows = $root.FindAll([System.Windows.Automation.TreeScope]::Descendants, $pCond)
+    Write-Host "=== DUMPING APP WINDOWS (PID=$($proc.Id)) ===" -ForegroundColor Magenta
+    for ($i = 0; $i -lt $windows.Count; $i++) {
+        $win = $windows.Item($i)
+        $name = $win.Current.Name
+        $controlType = $win.Current.ControlType.ProgrammaticName
+        $automationId = $win.Current.AutomationId
+        Write-Host "Window/Element: Name='$name', ControlType='$controlType', AutomationId='$automationId'" -ForegroundColor Cyan
+        
+        # Dump descendants
+        try {
+            $descendants = $win.FindAll([System.Windows.Automation.TreeScope]::Descendants, [System.Windows.Automation.Condition]::TrueCondition)
+            for ($j = 0; $j -lt $descendants.Count; $j++) {
+                $desc = $descendants.Item($j)
+                $descName = $desc.Current.Name
+                $descType = $desc.Current.ControlType.ProgrammaticName
+                $descId = $desc.Current.AutomationId
+                if (-not [string]::IsNullOrWhiteSpace($descName) -or -not [string]::IsNullOrWhiteSpace($descId)) {
+                    Write-Host "  -> Child: Name='$descName', Type='$descType', Id='$descId'" -ForegroundColor Gray
+                }
+            }
+        } catch {}
+    }
+    Write-Host "=============================================" -ForegroundColor Magenta
+}
+
 function Run-Step {
     param(
         [string]$Name,
         [scriptblock]$Action
     )
 
+    $time = (Get-Date -Format "HH:mm:ss.fff")
+    Write-Host "[$time] Starting Step: $Name" -ForegroundColor Yellow
     try {
         $detail = & $Action
         Add-Result -Name $Name -Passed $true -Detail ([string]$detail)
+        $time = (Get-Date -Format "HH:mm:ss.fff")
+        Write-Host "[$time] Finished Step: $Name" -ForegroundColor Green
     }
     catch {
         Add-Result -Name $Name -Passed $false -Detail $_.Exception.Message
+        $time = (Get-Date -Format "HH:mm:ss.fff")
+        Write-Host "[$time] Failed Step: $Name - Error: $_" -ForegroundColor Red
+        Dump-ApplicationWindows
     }
 }
 
@@ -418,6 +518,13 @@ function Open-And-Close-Dialog {
         }
 
         $null = Wait-Until -TimeoutSeconds 10 -Condition { -not (Get-WindowByTitle -Title $ExpectedTitle) }
+        if (Get-WindowByTitle -Title $ExpectedTitle) {
+            try {
+                Close-WindowElement -Window $dialog.Element
+            } catch {}
+            throw "Window '$ExpectedTitle' failed to close."
+        }
+        Start-Sleep -Milliseconds 500
         return $ExpectedTitle
     }
 }
@@ -428,7 +535,7 @@ Run-Step -Name "Launch application to login screen" -Action {
         throw "Application not found at '$ExePath'."
     }
 
-    Start-Process -FilePath $ExePath -ArgumentList "--test-login" | Out-Null
+    $global:AppProcess = Start-Process -FilePath $ExePath -ArgumentList "--test-login" -PassThru
     $login = Wait-ForWindow -Title "تسجيل الدخول - نظام إدارة المتجر" -TimeoutSeconds 20
     if ($null -eq $login) {
         throw "Login window did not appear."
@@ -510,14 +617,14 @@ Open-And-Close-Dialog -Name "Notifications: full window opens" -ExpectedTitle "�
     $main = Get-MainWindowElement
     Click-ByAutomationId -Window $main -AutomationId "BtnNotifications"
     Start-Sleep -Milliseconds 400
-    Click-ByName -Window $main -Name "عرض الكل"
+    Click-ByAutomationId -Window $main -AutomationId "BtnViewAllNotifications"
 }
 
 Open-And-Close-Dialog -Name "User menu: my account dialog" -ExpectedTitle "حسابي" -OpenAction {
     $main = Get-MainWindowElement
     Click-ByAutomationId -Window $main -AutomationId "BtnUserMenu"
     Start-Sleep -Milliseconds 400
-    Click-ByName -Window $main -Name "حسابي"
+    Click-ByAutomationId -Window $main -AutomationId "BtnMyAccount"
 }
 
 $settingsSections = @(
@@ -566,7 +673,7 @@ Open-And-Close-Dialog -Name "Settings: add user dialog" -ExpectedTitle "إضاف
     Start-Sleep -Milliseconds 400
     Click-ByAutomationId -Window $main -AutomationId "UsersSettingsRadio"
     Start-Sleep -Milliseconds 400
-    Click-ByName -Window $main -Name "إضافة مستخدم"
+    Click-ByAutomationId -Window $main -AutomationId "BtnAddUser"
 }
 
 Open-And-Close-Dialog -Name "Settings: add role dialog" -ExpectedTitle "إدارة الأدوار" -OpenAction {
@@ -575,35 +682,35 @@ Open-And-Close-Dialog -Name "Settings: add role dialog" -ExpectedTitle "إدار
     Start-Sleep -Milliseconds 400
     Click-ByAutomationId -Window $main -AutomationId "RolesSettingsRadio"
     Start-Sleep -Milliseconds 400
-    Click-ByName -Window $main -Name "إضافة دور"
+    Click-ByAutomationId -Window $main -AutomationId "BtnAddRole"
 }
 
-Open-And-Close-Dialog -Name "Products: add product dialog" -ExpectedTitle "إضافة/تعديل منتج" -OpenAction {
+Open-And-Close-Dialog -Name "Products: add product dialog" -ExpectedTitle "إضافة منتج جديد" -OpenAction {
     $main = Get-MainWindowElement
     Click-ByAutomationId -Window $main -AutomationId "BtnProducts"
     Start-Sleep -Milliseconds 500
-    Click-ByName -Window $main -Name "إضافة منتج"
+    Click-ByAutomationId -Window $main -AutomationId "BtnAddProduct"
 }
 
 Open-And-Close-Dialog -Name "Customers: add customer dialog" -ExpectedTitle "إضافة/تعديل عميل" -OpenAction {
     $main = Get-MainWindowElement
     Click-ByAutomationId -Window $main -AutomationId "BtnCustomers"
     Start-Sleep -Milliseconds 500
-    Click-ByName -Window $main -Name "إضافة عميل"
+    Click-ByAutomationId -Window $main -AutomationId "BtnAddCustomer"
 }
 
-Open-And-Close-Dialog -Name "Suppliers: add supplier dialog" -ExpectedTitle "إضافة/تعديل مورد" -OpenAction {
+Open-And-Close-Dialog -Name "Suppliers: add supplier dialog" -ExpectedTitle "إضافة مورد جديد" -OpenAction {
     $main = Get-MainWindowElement
     Click-ByAutomationId -Window $main -AutomationId "BtnSuppliers"
     Start-Sleep -Milliseconds 500
-    Click-ByName -Window $main -Name "إضافة مورد"
+    Click-ByAutomationId -Window $main -AutomationId "BtnAddSupplier"
 }
 
-Open-And-Close-Dialog -Name "Purchases: new purchase dialog" -ExpectedTitle "فاتورة شراء" -OpenAction {
+Open-And-Close-Dialog -Name "Purchases: new purchase dialog" -ExpectedTitle "فاتورة شراء جديدة" -OpenAction {
     $main = Get-MainWindowElement
     Click-ByAutomationId -Window $main -AutomationId "BtnPurchases"
     Start-Sleep -Milliseconds 500
-    Click-ByName -Window $main -Name "فاتورة شراء جديدة"
+    Click-ByAutomationId -Window $main -AutomationId "BtnNewPurchase"
 }
 
 Open-And-Close-Dialog -Name "Sales: shift management dialog" -ExpectedTitle "إدارة الوردية" -OpenAction {
@@ -633,7 +740,7 @@ Run-Step -Name "Logout returns to login screen" -Action {
     $main = Get-MainWindowElement
     Click-ByAutomationId -Window $main -AutomationId "BtnUserMenu"
     Start-Sleep -Milliseconds 400
-    Click-ByName -Window $main -Name "تسجيل الخروج"
+    Click-ByAutomationId -Window $main -AutomationId "BtnLogout"
 
     $confirm = Wait-ForWindow -Title "تسجيل الخروج" -TimeoutSeconds 10
     if ($null -eq $confirm) {
@@ -670,7 +777,7 @@ if (-not (Test-Path $outputDirectory)) {
 
 $results | ConvertTo-Json -Depth 3 | Set-Content -Path $OutputPath -Encoding UTF8
 
-$passed = ($results | Where-Object Status -eq "PASS").Count
-$failed = ($results | Where-Object Status -eq "FAIL").Count
+$passed = @($results | Where-Object Status -eq "PASS").Count
+$failed = @($results | Where-Object Status -eq "FAIL").Count
 Write-Output "Summary: Passed=$passed Failed=$failed"
 Write-Output "Results saved to $OutputPath"

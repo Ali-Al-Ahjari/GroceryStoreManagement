@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
@@ -27,6 +27,7 @@ namespace GroceryStoreManagement.Windows
         public PaymentDialog(Sale sale)
         {
             InitializeComponent();
+            ThemeManager.ApplyWindowBackdrop(this);
             _sale = sale;
             LoadSaleData();
             RefreshShiftContext();

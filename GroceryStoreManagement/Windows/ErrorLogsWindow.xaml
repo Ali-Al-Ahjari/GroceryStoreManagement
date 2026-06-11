@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="سجل الأخطاء" Height="600" Width="900" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="CanResize" FlowDirection="RightToLeft" Language="ar-YE" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
 
-    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+    <Border CornerRadius="16" Background="{DynamicResource SurfaceBrush}" Effect="{DynamicResource CardShadow}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -39,13 +39,13 @@
 
             <!-- محتوى السجل -->
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="20">
-                <TextBox x:Name="TxtLogContent" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Background="{StaticResource BackgroundBrush}" FontFamily="Consolas" FontSize="12" Padding="15" BorderThickness="0"/>
+                <TextBox x:Name="TxtLogContent" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Background="{DynamicResource BackgroundBrush}" FontFamily="Consolas" FontSize="12" Padding="15" BorderThickness="0"/>
             </ScrollViewer>
 
             <!-- شريط الإجراءات -->
-            <Border Grid.Row="2" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,1,0,0" Padding="20,15">
+            <Border Grid.Row="2" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="0,1,0,0" Padding="20,15">
                 <Grid>
-                    <TextBlock x:Name="TxtLogInfo" Text="ملف السجل: --" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" Width="200" Margin="284,0,376,0"/>
+                    <TextBlock x:Name="TxtLogInfo" Text="ملف السجل: --" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Width="200" Margin="284,0,376,0"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button x:Name="BtnOpenFolder" Click="BtnOpenFolder_Click" Style="{StaticResource OutlineButton}" Padding="15,8" Margin="0,0,10,0">
                             <StackPanel Orientation="Horizontal">
@@ -53,7 +53,7 @@
                                 <TextBlock Text="فتح المجلد" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="BtnClearLogs" Click="BtnClearLogs_Click" Style="{StaticResource OutlineButton}" Foreground="{StaticResource ErrorBrush}" Padding="15,8">
+                        <Button x:Name="BtnClearLogs" Click="BtnClearLogs_Click" Style="{StaticResource OutlineButton}" Foreground="{DynamicResource ErrorBrush}" Padding="15,8">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
                                 <TextBlock Text="مسح السجل" VerticalAlignment="Center" />

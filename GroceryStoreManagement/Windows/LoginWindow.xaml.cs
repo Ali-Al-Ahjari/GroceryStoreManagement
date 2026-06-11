@@ -66,11 +66,11 @@ namespace GroceryStoreManagement.Windows // تحديد اسم المجال (Name
                     TxtLicenseStateBadge.Text = "مفعل";
                     TxtLicenseActionLabel.Text = "تجديد الترخيص";
                     ApplyLicenseVisualTheme(
-                        cardBackgroundHex: "#ECFDF5",
-                        cardBorderHex: "#86EFAC",
-                        textColorHex: "#166534",
-                        badgeBackgroundHex: "#166534",
-                        actionBackgroundHex: "#15803D");
+                        backgroundKey: "SuccessBrushMuted",
+                        borderKey: "SuccessBrush",
+                        textKey: "SuccessBrush",
+                        badgeBgKey: "SuccessBrush",
+                        actionBgKey: "SuccessBrush");
                     SetLoginEnabled(true);
                     break;
 
@@ -78,11 +78,11 @@ namespace GroceryStoreManagement.Windows // تحديد اسم المجال (Name
                     TxtLicenseStateBadge.Text = "غير مفعل";
                     TxtLicenseActionLabel.Text = "تفعيل الآن";
                     ApplyLicenseVisualTheme(
-                        cardBackgroundHex: "#EFF6FF",
-                        cardBorderHex: "#BFDBFE",
-                        textColorHex: "#1E3A8A",
-                        badgeBackgroundHex: "#1D4ED8",
-                        actionBackgroundHex: "#0F766E");
+                        backgroundKey: "InfoBrushMuted",
+                        borderKey: "InfoBrush",
+                        textKey: "InfoBrush",
+                        badgeBgKey: "InfoBrush",
+                        actionBgKey: "PrimaryBrush");
                     SetLoginEnabled(false);
                     break;
 
@@ -90,11 +90,11 @@ namespace GroceryStoreManagement.Windows // تحديد اسم المجال (Name
                     TxtLicenseStateBadge.Text = "منتهي";
                     TxtLicenseActionLabel.Text = "تجديد الآن";
                     ApplyLicenseVisualTheme(
-                        cardBackgroundHex: "#FFF7ED",
-                        cardBorderHex: "#FDBA74",
-                        textColorHex: "#9A3412",
-                        badgeBackgroundHex: "#C2410C",
-                        actionBackgroundHex: "#C2410C");
+                        backgroundKey: "WarningBrushMuted",
+                        borderKey: "WarningBrush",
+                        textKey: "WarningBrush",
+                        badgeBgKey: "WarningBrush",
+                        actionBgKey: "WarningBrush");
                     SetLoginEnabled(false);
                     break;
 
@@ -103,47 +103,42 @@ namespace GroceryStoreManagement.Windows // تحديد اسم المجال (Name
                     TxtLicenseStateBadge.Text = "مقفل";
                     TxtLicenseActionLabel.Text = "إعادة التفعيل";
                     ApplyLicenseVisualTheme(
-                        cardBackgroundHex: "#FEF2F2",
-                        cardBorderHex: "#FCA5A5",
-                        textColorHex: "#991B1B",
-                        badgeBackgroundHex: "#B91C1C",
-                        actionBackgroundHex: "#B91C1C");
+                        backgroundKey: "ErrorBrushMuted",
+                        borderKey: "ErrorBrush",
+                        textKey: "ErrorBrush",
+                        badgeBgKey: "ErrorBrush",
+                        actionBgKey: "ErrorBrush");
                     SetLoginEnabled(false);
                     break;
             }
         }
 
         private void ApplyLicenseVisualTheme(
-            string cardBackgroundHex,
-            string cardBorderHex,
-            string textColorHex,
-            string badgeBackgroundHex,
-            string actionBackgroundHex)
+            string backgroundKey,
+            string borderKey,
+            string textKey,
+            string badgeBgKey,
+            string actionBgKey)
         {
-            LicenseCard.Background = CreateBrush(cardBackgroundHex);
-            LicenseCard.BorderBrush = CreateBrush(cardBorderHex);
+            LicenseCard.Background = (Brush)FindResource(backgroundKey);
+            LicenseCard.BorderBrush = (Brush)FindResource(borderKey);
 
-            Brush textBrush = CreateBrush(textColorHex);
+            Brush textBrush = (Brush)FindResource(textKey);
             TxtLicenseStatus.Foreground = textBrush;
             TxtLicenseExpiry.Foreground = textBrush;
 
-            LicenseStateBadge.Background = CreateBrush(badgeBackgroundHex);
-            LicenseStateBadge.BorderBrush = CreateBrush(badgeBackgroundHex);
+            LicenseStateBadge.Background = (Brush)FindResource(badgeBgKey);
+            LicenseStateBadge.BorderBrush = (Brush)FindResource(badgeBgKey);
             TxtLicenseStateBadge.Foreground = Brushes.White;
 
-            BtnLicenseActivation.Background = CreateBrush(actionBackgroundHex);
-            BtnLicenseActivation.BorderBrush = CreateBrush(actionBackgroundHex);
+            BtnLicenseActivation.Background = (Brush)FindResource(actionBgKey);
+            BtnLicenseActivation.BorderBrush = (Brush)FindResource(actionBgKey);
 
-            BtnCopyMachineFingerprint.Foreground = CreateBrush(actionBackgroundHex);
-            BtnCopyMachineFingerprint.BorderBrush = CreateBrush(actionBackgroundHex);
-            BtnCopyMachineFingerprint.Background = Brushes.White;
+            BtnCopyMachineFingerprint.Foreground = (Brush)FindResource(actionBgKey);
+            BtnCopyMachineFingerprint.BorderBrush = (Brush)FindResource(actionBgKey);
+            BtnCopyMachineFingerprint.Background = (Brush)FindResource("SurfaceBrush");
 
-            TxtMachineFingerprint.Foreground = CreateBrush("#334155");
-        }
-
-        private static Brush CreateBrush(string hexColor)
-        {
-            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexColor));
+            TxtMachineFingerprint.Foreground = (Brush)FindResource("TextSecondaryBrush");
         }
 
         private void SetLoginEnabled(bool enabled)
@@ -248,6 +243,7 @@ namespace GroceryStoreManagement.Windows // تحديد اسم المجال (Name
                     MainWindow mainWindow = new();
 
                     // إظهار النافذة الرئيسية
+                    Application.Current.MainWindow = mainWindow;
                     mainWindow.Show();
 
                     // إغلاق نافذة تسجيل الدخول الحالية
@@ -362,7 +358,7 @@ namespace GroceryStoreManagement.Windows // تحديد اسم المجال (Name
                 TxtPassword.Visibility = Visibility.Collapsed; // إخفاء حقل كلمة المرور المشفر
 
                 // تغيير لون أيقونة العين لتوضيح أنها مفعلة (أخضر)
-                BtnShowPassword.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2E8B57"));
+                BtnShowPassword.Foreground = (Brush)FindResource("SuccessBrush");
             }
             else
             {
@@ -372,7 +368,7 @@ namespace GroceryStoreManagement.Windows // تحديد اسم المجال (Name
                 TxtPasswordVisible.Visibility = Visibility.Collapsed; // إخفاء حقل النص العادي
 
                 // إعادة لون أيقونة العين للوضع الافتراضي
-                BtnShowPassword.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#94A3B8"));
+                BtnShowPassword.Foreground = (Brush)FindResource("TextMutedBrush");
             }
         }
 

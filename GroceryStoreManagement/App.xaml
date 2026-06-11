@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <!-- دمج ملف الأنماط المشتركة -->
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Themes/LightTheme.xaml"/>
                 <ResourceDictionary Source="Styles/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

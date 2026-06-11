@@ -13,6 +13,7 @@ namespace GroceryStoreManagement.Windows
         public UpdateQuantityDialog(Product product)
         {
             InitializeComponent();
+            ThemeManager.ApplyWindowBackdrop(this);
             _product = product;
             LoadProductData();
             
@@ -75,6 +76,14 @@ namespace GroceryStoreManagement.Windows
         {
             DialogResult = false;
             Close();
+        }
+
+        private void DragWindow(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
     }
 }

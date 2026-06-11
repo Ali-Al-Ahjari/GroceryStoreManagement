@@ -1,6 +1,6 @@
-﻿<UserControl x:Class="GroceryStoreManagement.Windows.PurchasesWindow"
+<UserControl x:Class="GroceryStoreManagement.Windows.PurchasesWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Language="ar-YE" Background="{StaticResource BackgroundBrush}">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Language="ar-YE" Background="{DynamicResource BackgroundBrush}">
 
     <Grid Margin="25">
         <Grid.RowDefinitions>
@@ -37,32 +37,32 @@
                 <!-- Total Invoices -->
                 <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
                     <StackPanel>
-                        <TextBlock Text="عدد الفواتير" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
-                        <TextBlock x:Name="TotalInvoicesText" Text="0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,5,0,0"/>
+                        <TextBlock Text="عدد الفواتير" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TotalInvoicesText" Text="0" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Total Purchases -->
                 <Border Grid.Column="1" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
                     <StackPanel>
-                        <TextBlock Text="إجمالى المشتريات" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
-                        <TextBlock x:Name="TotalPurchasesText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource SecondaryBrush}" Margin="0,5,0,0"/>
+                        <TextBlock Text="إجمالى المشتريات" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TotalPurchasesText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBrush}" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Total Paid -->
                 <Border Grid.Column="2" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
                     <StackPanel>
-                        <TextBlock Text="المدفوع" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
-                        <TextBlock x:Name="TotalPaidText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="Green" Margin="0,5,0,0"/>
+                        <TextBlock Text="المدفوع" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TotalPaidText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SuccessBrush}" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Total Remaining -->
                 <Border Grid.Column="3" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
                     <StackPanel>
-                        <TextBlock Text="متبقي للموردين" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
-                        <TextBlock x:Name="TotalRemainingText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource ErrorBrush}" Margin="0,5,0,0"/>
+                        <TextBlock Text="متبقي للموردين" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TotalRemainingText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource ErrorBrush}" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -85,7 +85,7 @@
                     <!-- Reset -->
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Click="NewPurchase_Click" Style="{StaticResource PrimaryButton}" Margin="0,0,20,0">
+                <Button x:Name="BtnNewPurchase" Grid.Column="0" Click="NewPurchase_Click" Style="{StaticResource PrimaryButton}" Margin="0,0,20,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
                         <TextBlock Text="فاتورة شراء جديدة" VerticalAlignment="Center" />
@@ -95,7 +95,7 @@
                 <!-- Search -->
                 <Grid Grid.Column="1" Margin="0,0,15,0" Width="220">
                     <TextBox x:Name="SearchTextBox" Style="{StaticResource ModernTextBox}" Padding="30,10,10,10" TextChanged="SearchTextBox_TextChanged"/>
-                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="16" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="#AAA"/>
+                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="16" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="{DynamicResource TextMutedBrush}"/>
                     <Button x:Name="ClearSearchButton" Click="ClearSearch_Click" Style="{StaticResource IconButton}" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Width="20" Height="20">
                         <TextBlock Text="&#xE711;" FontFamily="{StaticResource IconFont}" FontSize="10" />
                     </Button>
@@ -162,7 +162,7 @@
                                     <Button ToolTip="سداد" Click="PaySupplier_Click" Tag="{Binding PurchaseID}" Style="{StaticResource IconButton}" Margin="2">
                                         <TextBlock Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" FontSize="14"/>
                                     </Button>
-                                    <Button ToolTip="حذف" Click="DeletePurchase_Click" Tag="{Binding PurchaseID}" Style="{StaticResource IconButton}" Foreground="Red" Margin="2">
+                                    <Button ToolTip="حذف" Click="DeletePurchase_Click" Tag="{Binding PurchaseID}" Style="{StaticResource IconButton}" Foreground="{DynamicResource DangerBrush}" Margin="2">
                                         <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="14"/>
                                     </Button>
                                 </StackPanel>
@@ -175,5 +175,6 @@
 
     </Grid>
 </UserControl>
+
 
 

@@ -1,4 +1,4 @@
-﻿// =====================================================
+// =====================================================
 // App.xaml.cs - نقطة بدء التطبيق
 // هذا الملف يتحكم في بدء تشغيل التطبيق وتهيئة قاعدة البيانات
 // ويتضمن معالجة الأخطاء غير المتوقعة على مستوى التطبيق
@@ -35,6 +35,11 @@ namespace GroceryStoreManagement
             FrameworkElement.LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(System.Windows.Markup.XmlLanguage.GetLanguage(culture.IetfLanguageTag)));
+
+            // ═══════════════════════════════════════════════════════════
+            // تهيئة وتطبيق المظهر (Theme Loading)
+            // ═══════════════════════════════════════════════════════════
+            ThemeManager.LoadTheme();
 
             // ═══════════════════════════════════════════════════════════
             // إعداد معالجات الأخطاء العامة (Global Exception Handlers)

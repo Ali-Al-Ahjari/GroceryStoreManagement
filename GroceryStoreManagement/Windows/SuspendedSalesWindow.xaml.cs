@@ -18,6 +18,7 @@ namespace GroceryStoreManagement.Windows
         public SuspendedSalesWindow(int? shiftId)
         {
             InitializeComponent();
+            ThemeManager.ApplyWindowBackdrop(this);
             EnterKeyHelper.EnableEnterKeyNavigation(this);
             _shiftId = shiftId;
             LoadData();

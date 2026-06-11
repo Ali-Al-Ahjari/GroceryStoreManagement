@@ -1,8 +1,8 @@
-<Window x:Class="GroceryStoreManagement.Windows.PromotionsWindow"
+﻿<Window x:Class="GroceryStoreManagement.Windows.PromotionsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="العروض والخصومات" Height="600" Width="850" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="CanResize" FlowDirection="RightToLeft" Language="ar-YE" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}">
 
-    <Border CornerRadius="16" Background="{StaticResource SurfaceBrush}" Effect="{StaticResource CardShadow}">
+    <Border CornerRadius="16" Background="{DynamicResource SurfaceBrush}" Effect="{DynamicResource CardShadow}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -11,7 +11,7 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <Border Grid.Row="0" Background="{StaticResource PrimaryGradient}" CornerRadius="16,16,0,0" Padding="20,15">
+            <Border Grid.Row="0" Background="{DynamicResource PrimaryGradient}" CornerRadius="16,16,0,0" Padding="20,15">
                 <Grid>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE8EC;" FontFamily="{StaticResource IconFont}" FontSize="18" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
@@ -68,7 +68,7 @@
                                     <Button Click="EditPromotion_Click" Tag="{Binding PromotionID}" Style="{StaticResource IconButton}" Margin="2">
                                         <TextBlock Text="&#xE70F;" FontFamily="{StaticResource IconFont}" FontSize="14"/>
                                     </Button>
-                                    <Button Click="DeletePromotion_Click" Tag="{Binding PromotionID}" Style="{StaticResource IconButton}" Foreground="Red" Margin="2">
+                                    <Button Click="DeletePromotion_Click" Tag="{Binding PromotionID}" Style="{StaticResource IconButton}" Foreground="{DynamicResource DangerBrush}" Margin="2">
                                         <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="14"/>
                                     </Button>
                                 </StackPanel>
@@ -82,3 +82,4 @@
     </Border>
 
 </Window>
+

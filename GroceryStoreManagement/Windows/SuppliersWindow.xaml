@@ -1,6 +1,6 @@
-﻿<UserControl x:Class="GroceryStoreManagement.Windows.SuppliersWindow"
+<UserControl x:Class="GroceryStoreManagement.Windows.SuppliersWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Language="ar-YE" Background="{StaticResource BackgroundBrush}">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Language="ar-YE" Background="{DynamicResource BackgroundBrush}">
 
     <Grid Margin="25">
         <Grid.RowDefinitions>
@@ -33,15 +33,15 @@
 
                 <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
                     <StackPanel>
-                        <TextBlock Text="عدد الموردين" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
-                        <TextBlock x:Name="TotalSuppliersCountText" Text="0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,5,0,0"/>
+                        <TextBlock Text="عدد الموردين" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TotalSuppliersCountText" Text="0" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
 
                 <Border Grid.Column="1" Style="{StaticResource CardBorder}" Margin="5,0" Padding="15">
                     <StackPanel>
-                        <TextBlock Text="إجمالي التوريد" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
-                        <TextBlock x:Name="TotalSuppliedValueText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="{StaticResource SecondaryBrush}" Margin="0,5,0,0"/>
+                        <TextBlock Text="إجمالي التوريد" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                        <TextBlock x:Name="TotalSuppliedValueText" Text="ر.ي 0" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBrush}" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -62,7 +62,7 @@
                     <!-- Actions -->
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Click="AddSupplier_Click" Style="{StaticResource PrimaryButton}" Margin="0,0,20,0">
+                <Button x:Name="BtnAddSupplier" Grid.Column="0" Click="AddSupplier_Click" Style="{StaticResource PrimaryButton}" Margin="0,0,20,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
                         <TextBlock Text="إضافة مورد" VerticalAlignment="Center" />
@@ -72,7 +72,7 @@
                 <!-- Search -->
                 <Grid Grid.Column="1" Margin="0,0,15,0" Width="250">
                     <TextBox x:Name="SearchTextBox" Style="{StaticResource ModernTextBox}" Padding="30,10,10,10" TextChanged="SearchTextBox_TextChanged"/>
-                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="16" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="#AAA"/>
+                    <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}" FontSize="16" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="{DynamicResource TextMutedBrush}"/>
                     <Button Click="SearchButton_Click" Visibility="Collapsed">
                         <TextBlock Text="&#xE721;" FontFamily="{StaticResource IconFont}"/>
                     </Button>
@@ -116,7 +116,7 @@
                                     <Button Click="EditSupplier_Click" Tag="{Binding SupplierID}" Style="{StaticResource IconButton}" Margin="2">
                                         <TextBlock Text="&#xE70F;" FontFamily="{StaticResource IconFont}" FontSize="14"/>
                                     </Button>
-                                    <Button Click="DeleteSupplier_Click" Tag="{Binding SupplierID}" Style="{StaticResource IconButton}" Foreground="Red" Margin="2">
+                                    <Button Click="DeleteSupplier_Click" Tag="{Binding SupplierID}" Style="{StaticResource IconButton}" Foreground="{DynamicResource DangerBrush}" Margin="2">
                                         <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="14"/>
                                     </Button>
                                 </StackPanel>
@@ -129,5 +129,6 @@
 
     </Grid>
 </UserControl>
+
 
 
